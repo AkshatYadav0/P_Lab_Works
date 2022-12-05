@@ -1,0 +1,4 @@
+# ignore all logs
+.ipynb_checkpoints
+_config.yml
+_toc.yml
