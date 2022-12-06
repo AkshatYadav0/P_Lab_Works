@@ -27,7 +27,7 @@ import torch.nn as nn
 # In[2]:
 
 
-with open('HCP_movie_watching.pkl','rb') as f:
+with open('Data/HCP_movie_watching.pkl','rb') as f:
     TS = pickle.load(f)
 print(TS.keys())
 
@@ -280,7 +280,7 @@ class Attention(nn.Module):
         return att_weights
 
 
-# ### `GRU Classifier` Model as described in the [paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008943) with added normalization layers
+# ### `GRU Classifier` Model as described in the [paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008943)
 # <img src="gru.png">
 
 # In[14]:
@@ -330,7 +330,7 @@ class GRU_RNN(nn.Module):
 
 # ## Training
 
-# In[28]:
+# In[15]:
 
 
 def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
@@ -423,7 +423,7 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
     return train_losses,valid_losses,tr_acc,val_acc,best_epoch
 
 
-# In[29]:
+# In[16]:
 
 
 epochs     = 55
@@ -436,7 +436,7 @@ lr         = 0.006
 
 # ### Training with Attention Layer
 
-# In[30]:
+# In[17]:
 
 
 model     = GRU_RNN(input_dim, output_dim, hidden_dim, n_layers)
@@ -445,13 +445,13 @@ criterion = nn.CrossEntropyLoss()
 print(model)
 
 
-# In[31]:
+# In[18]:
 
 
 train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion)
 
 
-# In[32]:
+# In[19]:
 
 
 import matplotlib.pyplot as plt
@@ -557,14 +557,14 @@ def test(test_loader,net):
 
 # ### Accuracy with Attention Layer
 
-# In[33]:
+# In[24]:
 
 
 model = GRU_RNN(input_dim, output_dim, hidden_dim, n_layers)
 model.load_state_dict(torch.load('RNN_GRU_Att.pt'))
 
 
-# In[34]:
+# In[25]:
 
 
 test(test_loader,model)
@@ -588,4 +588,4 @@ test(test_loader,model)
 # ## Conclusion
 # 
 # Adding an Attention Layer has increased the model accuracy as expected.
-# The model furthur can be extended/improved by using other methods such as `transformers`
+# The model furthur can be extended/improved by using other methods such as in: [transformers](https://akshatyadav0.github.io/P_Lab_Works/Transformers.html) notebook 

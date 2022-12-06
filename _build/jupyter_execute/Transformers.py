@@ -3,6 +3,17 @@
 
 # # Transformers
 
+# ## Overview
+
+# **This notebook implements Transformer model for HCP (movie watching) data**
+# 
+# Transformers were first present by Vaswani, et al. in their paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
+# 
+
+# ---
+# ## Data Organization
+# Same as in the [gru + attention](https://akshatyadav0.github.io/P_Lab_Works/attention_2.html) notebook
+
 # In[1]:
 
 
@@ -170,9 +181,53 @@ else:
 device
 
 
-# # MODELS
+# ## Modelling
 
-# ### Attention
+# ### Positional Encodings
+# <img src = "po_enc.png">
+
+# In[8]:
+
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model, seq_len):
+        """
+        :param d_model: dimension of model
+        :param max_len: max sequence length
+        :param device: hardware device setting
+        """
+        super(PositionalEncoding, self).__init__()
+
+        # same size with input matrix (for adding with input matrix)
+        
+        self.encoding = torch.zeros(seq_len, d_model, device=device)
+        self.encoding.requires_grad = False
+
+        pos = torch.arange(0, seq_len, device=device)
+        pos = pos.float().unsqueeze(dim=1)
+        # 1D => 2D unsqueeze to represent position
+
+        _2i = torch.arange(0, d_model, step=2, device=device).float()
+        # 'i' means index of d_model (e.g. embedding size = 50, 'i' = [0,50])
+        # "step=2" means 'i' multiplied with two (same with 2 * i)
+
+        self.encoding[:, 0::2] = torch.sin(pos / (10000 ** (_2i / d_model)))
+        self.encoding[:, 1::2] = torch.cos(pos / (10000 ** (_2i / d_model)))
+        # compute positional encoding to consider positional information
+
+    def forward(self, x):
+        # self.encoding
+        # [max_len = 512, d_model = 512]
+
+        batch_size, seq_len = x.size()
+        # [batch_size = 128, seq_len = 30]
+
+        return self.encoding[:seq_len, :]
+        # [seq_len = 30, d_model = 512]
+        # it will add with tok_emb : [128, 30, 512]         
+
+
+# ### Self Attention
 # <img src = "scale_dot_product_attention.jpg">
 
 # In[9]:
@@ -190,19 +245,18 @@ class Attention(nn.Module):
         
         self.softmax = nn.Softmax(dim=-1)
 
-    def forward(self, q, k, v): #, mask=None, e=1e-12):
-        # [batch_size, head, length, d_tensor]
+    def forward(self, q, k, v):     # [batch_size, head, length, d_tensor]
+        
         batch_size, head, length, d_tensor = k.size()
 
         # 1. dot product Query with Key^T to compute similarity
+        
         k_t = k.transpose(2, 3)
         score = (q @ k_t) / np.sqrt(d_tensor)  # scaled dot product
 
-        # 2. apply masking (opt)
-        #if mask is not None:
-        #    score = score.masked_fill(mask == 0, -e)
-
-        # 3. pass them softmax to make [0, 1] range
+        # 2. Masking (opt)
+        
+        # 3. Softmax
         score = self.softmax(score)
 
         # 4. multiply with Value
@@ -243,8 +297,7 @@ class MultiHeadAttention(nn.Module):
         out = self.concat(out)
         out = self.w_concat(out)
 
-        # 5. visualize attention map
-        # TODO : we should implement visualization
+        # visualize attention map => may implement visualization
         
         return out
 
@@ -259,7 +312,6 @@ class MultiHeadAttention(nn.Module):
 
         d_tensor = d_model // self.n_head
         tensor = tensor.view(batch_size, length, self.n_head, d_tensor).transpose(1, 2)
-        # it is similar with group convolution (split by number of heads)
 
         return tensor
 
@@ -275,17 +327,17 @@ class MultiHeadAttention(nn.Module):
         return tensor
 
 
-# ## Feed Forward
+# ### Feed Forward
 
-# In[12]:
+# In[49]:
 
 
 class FeedForward(nn.Module):
-    def __init__(self, d_model, hidden_dim, dropout = 0.1):
+    def __init__(self, d_model, feed_fwd, dropout = 0.1):
         super().__init__() 
         
-        self.l1 = nn.Linear(d_model, hidden_dim)
-        self.l2 = nn.Linear(hidden_dim, d_model)
+        self.l1 = nn.Linear(d_model, feed_fwd)
+        self.l2 = nn.Linear(feed_fwd, d_model)
         
         self.dropout = nn.Dropout(p=dropout)
         
@@ -297,35 +349,42 @@ class FeedForward(nn.Module):
         return x
 
 
-# ## Complied Model
+# ### Transformer Block
 
-# In[29]:
+# In[55]:
 
 
-class Transformer_Model(nn.Module):
-
-    def __init__(self, d_model, hidden_dim, out_dim,n_head, drop_prob):
-        super(Transformer_Model, self).__init__()
+class TransformerBlock(nn.Module):
+    
+    def __init__(self, d_model,feed_fwd ,n_heads,drop_prob):
+        super(TransformerBlock, self).__init__()
+        
+        """
+        Args:
+           embed_dim: dimension of the embedding
+           n_heads: number of attention heads
+        
+        """
         
         self.attention = MultiHeadAttention(d_model=d_model, n_head=n_head)
         
-        #self.norm1 = LayerNorm(d_model=d_model)
+        self.norm1 = nn.LayerNorm(d_model) 
+        self.norm2 = nn.LayerNorm(d_model)
         
-        self.norm1 = torch.nn.LayerNorm(d_model)
-        
-        self.dropout1 = nn.Dropout(p=drop_prob)
+        self.feed_fwd = FeedForward(d_model=d_model, feed_fwd=feed_fwd, dropout=drop_prob)
 
-        self.feed_fwd = FeedForward(d_model=d_model, hidden_dim=hidden_dim, dropout=drop_prob)
-        
-        self.norm2 = torch.nn.LayerNorm(d_model) #LayerNorm(d_model=d_model)
-        
+        self.dropout1 = nn.Dropout(p=drop_prob)
         self.dropout2 = nn.Dropout(p=drop_prob)
+
+    def forward(self,x):#key,query,value):
         
-        self.linear_out = nn.Linear(d_model,out_dim)
-        self.func = nn.Softmax(dim=-1)
-    
-    
-    def forward(self, x):
+        """
+        Args:
+           key: key vector
+           query: query vector
+           value: value vector
+        """
+        
         # 1. compute self attention
         _x = x
         #print(x.shape)
@@ -343,15 +402,34 @@ class Transformer_Model(nn.Module):
         x = self.norm2(x + _x)
         x = self.dropout2(x)
         
-        # 5. Output
-        x = self.func(self.linear_out(x))
+        return x
+
+
+# ### Complied Model
+
+# In[56]:
+
+
+class Transformer_Model(nn.Module):
+
+    def __init__(self, d_model, feed_fwd, out_dim, n_layers, n_head, drop_prob):
+        super(Transformer_Model, self).__init__()
+
+        self.layers = nn.ModuleList([TransformerBlock(d_model, feed_fwd, n_head, drop_prob) for i in range(n_layers)])
+        self.linear_out = nn.Linear(d_model,out_dim)
+        
+    def forward(self, x):
+        for layer in self.layers:
+            x = layer(x)#,x,x)
+
+        x = self.linear_out(x)
     
         return x
 
 
 # ## Training
 
-# In[26]:
+# In[70]:
 
 
 def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
@@ -425,7 +503,7 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
                 if att:
                     torch.save(net.state_dict(), 'Trns_Multi_Att.pt')
                 else:
-                    torch.save(net.state_dict(), 'Trns_Att.pt')
+                    torch.save(net.state_dict(), 'Trns_Single_Att.pt')
                 valid_loss_min = val_loss.item()
 
         net.train()
@@ -437,34 +515,37 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
     return train_losses,valid_losses,tr_acc,val_acc,best_epoch
 
 
-# In[45]:
+# In[68]:
 
 
 epochs     = 100
 d_model    = 300
-feed_fwd   = 300
+feed_fwd   = 150
 output_dim = 15
 n_head     = 4
+n_layers   = 2
 drop_prob  = 0.0006
 lr         = 0.001
 
 
-# In[46]:
+# ### Multi-Head Attention (No PoE)
+
+# In[57]:
 
 
-model = Transformer_Model(d_model, feed_fwd, output_dim,n_head, drop_prob)
+model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
 optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 criterion = nn.CrossEntropyLoss()
 model
 
 
-# In[47]:
+# In[58]:
 
 
 train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion)
 
 
-# In[48]:
+# In[59]:
 
 
 import matplotlib.pyplot as plt
@@ -495,9 +576,57 @@ axis[1].set_title("Accuracies (with Multi-Head Attention)",fontweight='bold',col
 axis[1].legend(["Training Accuracy","Valid Accuracy"]);
 
 
+# ### Single-Head Attention (No PoE)
+
+# In[69]:
+
+
+n_head = 1
+model  = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+criterion = nn.CrossEntropyLoss()
+model
+
+
+# In[71]:
+
+
+train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att=False)
+
+
+# In[72]:
+
+
+x     = [i for i in range(1,epochs+1)]
+xi    = [i for i in range(0,epochs+5,5)]
+xi[0] = 1
+f, axis = plt.subplots(2,1)
+f.set_figwidth(20)
+f.set_figheight(12)
+plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
+
+axis[0].plot(x,train_losses)
+axis[0].plot(x,valid_losses)
+axis[0].axvline(best_epoch, color='black')
+axis[0].set_xticks(xi)
+axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_title("Losses (with 1-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
+
+
+axis[1].plot(x,tr_acc)
+axis[1].plot(x,val_acc)
+axis[1].set_xticks(xi)
+axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_title("Accuracies (with 1-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].legend(["Training Accuracy","Valid Accuracy"]);
+
+
 # ## Testing
 
-# In[53]:
+# In[60]:
 
 
 def test(test_loader,net):
@@ -520,14 +649,31 @@ def test(test_loader,net):
     print("Test accuracy: {:.3f} %".format(test_acc*100))
 
 
-# In[54]:
+# ### Multi-Head Attention (No PoE)
+
+# In[62]:
 
 
-model = Transformer_Model(d_model, feed_fwd, output_dim,n_head, drop_prob)
+model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
 model.load_state_dict(torch.load('Trns_Multi_Att.pt'))
 
 
-# In[55]:
+# In[63]:
+
+
+test(test_loader,model)
+
+
+# ### Single-Head Attention (No PoE)
+
+# In[73]:
+
+
+model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model.load_state_dict(torch.load('Trns_Single_Att.pt'))
+
+
+# In[74]:
 
 
 test(test_loader,model)
