@@ -52,6 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transformers" href="Transformers.html" />
     <link rel="prev" title="Home" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -116,6 +117,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    GRU + Attention
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Transformers.html">
+   Transformers
   </a>
  </li>
 </ul>
@@ -368,7 +374,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gru-classifier-model-as-described-in-the-paper-with-added-normalization-layers">
+    <a class="reference internal nav-link" href="#gru-classifier-model-as-described-in-the-paper">
      <code class="docutils literal notranslate">
       <span class="pre">
        GRU
@@ -377,7 +383,7 @@ title="Print to PDF"
        Classifier
       </span>
      </code>
-     Model as described in the paper with added normalization layers
+     Model as described in the paper
     </a>
    </li>
   </ul>
@@ -484,7 +490,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#gru-classifier-model-as-described-in-the-paper-with-added-normalization-layers">
+    <a class="reference internal nav-link" href="#gru-classifier-model-as-described-in-the-paper">
      <code class="docutils literal notranslate">
       <span class="pre">
        GRU
@@ -493,7 +499,7 @@ title="Print to PDF"
        Classifier
       </span>
      </code>
-     Model as described in the paper with added normalization layers
+     Model as described in the paper
     </a>
    </li>
   </ul>
@@ -570,7 +576,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;HCP_movie_watching.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Data/HCP_movie_watching.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">TS</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">TS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </pre></div>
@@ -909,8 +915,8 @@ starwars (176, 256, 300)
 </div>
 </div>
 </section>
-<section id="gru-classifier-model-as-described-in-the-paper-with-added-normalization-layers">
-<h3><code class="docutils literal notranslate"><span class="pre">GRU</span> <span class="pre">Classifier</span></code> Model as described in the <a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008943">paper</a> with added normalization layers<a class="headerlink" href="#gru-classifier-model-as-described-in-the-paper-with-added-normalization-layers" title="Permalink to this headline">#</a></h3>
+<section id="gru-classifier-model-as-described-in-the-paper">
+<h3><code class="docutils literal notranslate"><span class="pre">GRU</span> <span class="pre">Classifier</span></code> Model as described in the <a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008943">paper</a><a class="headerlink" href="#gru-classifier-model-as-described-in-the-paper" title="Permalink to this headline">#</a></h3>
 <img alt="_images/gru.png" src="_images/gru.png" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1101,93 +1107,98 @@ starwars (176, 256, 300)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.457238).  Saving model ...
-Validation loss decreased (2.457238 --&gt; 2.373328).  Saving model ...
-Epoch: 1/55 	Training Loss: 2.599293 	Validation Loss: 2.524363
-Validation loss decreased (2.373328 --&gt; 2.341884).  Saving model ...
-Epoch: 2/55 	Training Loss: 2.468103 	Validation Loss: 2.438837
-Validation loss decreased (2.341884 --&gt; 2.293653).  Saving model ...
-Validation loss decreased (2.293653 --&gt; 2.223446).  Saving model ...
-Epoch: 3/55 	Training Loss: 2.405302 	Validation Loss: 2.387956
-Validation loss decreased (2.223446 --&gt; 2.222155).  Saving model ...
-Epoch: 4/55 	Training Loss: 2.324601 	Validation Loss: 2.307748
-Validation loss decreased (2.222155 --&gt; 2.197115).  Saving model ...
-Validation loss decreased (2.197115 --&gt; 2.122011).  Saving model ...
-Epoch: 5/55 	Training Loss: 2.259597 	Validation Loss: 2.264010
-Validation loss decreased (2.122011 --&gt; 2.107618).  Saving model ...
-Validation loss decreased (2.107618 --&gt; 2.092265).  Saving model ...
-Epoch: 6/55 	Training Loss: 2.190341 	Validation Loss: 2.177773
-Validation loss decreased (2.092265 --&gt; 2.063604).  Saving model ...
-Epoch: 7/55 	Training Loss: 2.149294 	Validation Loss: 2.178194
-Validation loss decreased (2.063604 --&gt; 2.015322).  Saving model ...
-Epoch: 8/55 	Training Loss: 2.108910 	Validation Loss: 2.129760
-Validation loss decreased (2.015322 --&gt; 1.989239).  Saving model ...
-Validation loss decreased (1.989239 --&gt; 1.976246).  Saving model ...
-Validation loss decreased (1.976246 --&gt; 1.969607).  Saving model ...
-Epoch: 9/55 	Training Loss: 2.053796 	Validation Loss: 2.078911
-Validation loss decreased (1.969607 --&gt; 1.947604).  Saving model ...
-Epoch: 10/55 	Training Loss: 2.035371 	Validation Loss: 2.060731
-Epoch: 11/55 	Training Loss: 2.012808 	Validation Loss: 2.069265
-Epoch: 12/55 	Training Loss: 2.016757 	Validation Loss: 2.078523
-Validation loss decreased (1.947604 --&gt; 1.938853).  Saving model ...
-Epoch: 13/55 	Training Loss: 2.006350 	Validation Loss: 2.048320
-Validation loss decreased (1.938853 --&gt; 1.934308).  Saving model ...
-Validation loss decreased (1.934308 --&gt; 1.933029).  Saving model ...
-Validation loss decreased (1.933029 --&gt; 1.928182).  Saving model ...
-Epoch: 14/55 	Training Loss: 1.976431 	Validation Loss: 1.993823
-Epoch: 15/55 	Training Loss: 1.955488 	Validation Loss: 2.017503
-Validation loss decreased (1.928182 --&gt; 1.922393).  Saving model ...
-Validation loss decreased (1.922393 --&gt; 1.902889).  Saving model ...
-Epoch: 16/55 	Training Loss: 1.946516 	Validation Loss: 1.995346
-Epoch: 17/55 	Training Loss: 1.953231 	Validation Loss: 2.005012
-Validation loss decreased (1.902889 --&gt; 1.902719).  Saving model ...
-Validation loss decreased (1.902719 --&gt; 1.877347).  Saving model ...
-Epoch: 18/55 	Training Loss: 1.947722 	Validation Loss: 1.984340
-Epoch: 19/55 	Training Loss: 1.932972 	Validation Loss: 1.972273
-Validation loss decreased (1.877347 --&gt; 1.864731).  Saving model ...
-Validation loss decreased (1.864731 --&gt; 1.860011).  Saving model ...
-Validation loss decreased (1.860011 --&gt; 1.843998).  Saving model ...
-Epoch: 20/55 	Training Loss: 1.927015 	Validation Loss: 1.949134
-Epoch: 21/55 	Training Loss: 1.919861 	Validation Loss: 1.973495
-Epoch: 22/55 	Training Loss: 1.918040 	Validation Loss: 1.949350
-Epoch: 23/55 	Training Loss: 1.896321 	Validation Loss: 1.932071
-Epoch: 24/55 	Training Loss: 1.900025 	Validation Loss: 1.955758
-Epoch: 25/55 	Training Loss: 1.912035 	Validation Loss: 1.956371
-Epoch: 26/55 	Training Loss: 1.915309 	Validation Loss: 1.956767
-Epoch: 27/55 	Training Loss: 1.911251 	Validation Loss: 1.948015
-Epoch: 28/55 	Training Loss: 1.896718 	Validation Loss: 1.935864
-Epoch: 29/55 	Training Loss: 1.886154 	Validation Loss: 1.927497
-Epoch: 30/55 	Training Loss: 1.881236 	Validation Loss: 1.925111
-Epoch: 31/55 	Training Loss: 1.890488 	Validation Loss: 1.937386
-Epoch: 32/55 	Training Loss: 1.902981 	Validation Loss: 1.969439
-Epoch: 33/55 	Training Loss: 1.916307 	Validation Loss: 1.942919
-Validation loss decreased (1.843998 --&gt; 1.836706).  Saving model ...
-Epoch: 34/55 	Training Loss: 1.902257 	Validation Loss: 1.938263
-Epoch: 35/55 	Training Loss: 1.890190 	Validation Loss: 1.938289
-Epoch: 36/55 	Training Loss: 1.892686 	Validation Loss: 1.932224
-Validation loss decreased (1.836706 --&gt; 1.827536).  Saving model ...
-Epoch: 37/55 	Training Loss: 1.909522 	Validation Loss: 1.943655
-Epoch: 38/55 	Training Loss: 1.917515 	Validation Loss: 1.932843
-Epoch: 39/55 	Training Loss: 1.900651 	Validation Loss: 1.929024
-Epoch: 40/55 	Training Loss: 1.889435 	Validation Loss: 1.926753
-Validation loss decreased (1.827536 --&gt; 1.826634).  Saving model ...
-Epoch: 41/55 	Training Loss: 1.886197 	Validation Loss: 1.927034
-Validation loss decreased (1.826634 --&gt; 1.823769).  Saving model ...
-Epoch: 42/55 	Training Loss: 1.880218 	Validation Loss: 1.914281
-Epoch: 43/55 	Training Loss: 1.877535 	Validation Loss: 1.916815
-Validation loss decreased (1.823769 --&gt; 1.820724).  Saving model ...
-Epoch: 44/55 	Training Loss: 1.879146 	Validation Loss: 1.913199
-Epoch: 45/55 	Training Loss: 1.865679 	Validation Loss: 1.904695
-Epoch: 46/55 	Training Loss: 1.865179 	Validation Loss: 1.906178
-Epoch: 47/55 	Training Loss: 1.876360 	Validation Loss: 1.927046
-Epoch: 48/55 	Training Loss: 1.882865 	Validation Loss: 1.932765
-Epoch: 49/55 	Training Loss: 1.887669 	Validation Loss: 1.929597
-Epoch: 50/55 	Training Loss: 1.890348 	Validation Loss: 1.924862
-Epoch: 51/55 	Training Loss: 1.893407 	Validation Loss: 1.948250
-Epoch: 52/55 	Training Loss: 1.893858 	Validation Loss: 1.925953
-Epoch: 53/55 	Training Loss: 1.877799 	Validation Loss: 1.915025
-Epoch: 54/55 	Training Loss: 1.872840 	Validation Loss: 1.915223
-Epoch: 55/55 	Training Loss: 1.875477 	Validation Loss: 1.924663
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.547188).  Saving model ...
+Validation loss decreased (2.547188 --&gt; 2.529462).  Saving model ...
+Validation loss decreased (2.529462 --&gt; 2.501660).  Saving model ...
+Validation loss decreased (2.501660 --&gt; 2.500467).  Saving model ...
+Validation loss decreased (2.500467 --&gt; 2.468602).  Saving model ...
+Validation loss decreased (2.468602 --&gt; 2.461370).  Saving model ...
+Validation loss decreased (2.461370 --&gt; 2.456670).  Saving model ...
+Validation loss decreased (2.456670 --&gt; 2.455300).  Saving model ...
+Validation loss decreased (2.455300 --&gt; 2.421173).  Saving model ...
+Validation loss decreased (2.421173 --&gt; 2.399369).  Saving model ...
+Epoch: 1/55 	Training Loss: 2.604617 	Validation Loss: 2.511113
+Validation loss decreased (2.399369 --&gt; 2.350118).  Saving model ...
+Validation loss decreased (2.350118 --&gt; 2.297356).  Saving model ...
+Epoch: 2/55 	Training Loss: 2.485018 	Validation Loss: 2.445756
+Validation loss decreased (2.297356 --&gt; 2.222093).  Saving model ...
+Validation loss decreased (2.222093 --&gt; 2.179577).  Saving model ...
+Epoch: 3/55 	Training Loss: 2.376168 	Validation Loss: 2.339473
+Validation loss decreased (2.179577 --&gt; 2.178874).  Saving model ...
+Epoch: 4/55 	Training Loss: 2.306647 	Validation Loss: 2.292701
+Validation loss decreased (2.178874 --&gt; 2.150832).  Saving model ...
+Epoch: 5/55 	Training Loss: 2.269941 	Validation Loss: 2.268135
+Validation loss decreased (2.150832 --&gt; 2.146728).  Saving model ...
+Validation loss decreased (2.146728 --&gt; 2.132263).  Saving model ...
+Validation loss decreased (2.132263 --&gt; 2.129518).  Saving model ...
+Validation loss decreased (2.129518 --&gt; 2.091106).  Saving model ...
+Epoch: 6/55 	Training Loss: 2.239547 	Validation Loss: 2.223024
+Validation loss decreased (2.091106 --&gt; 2.055409).  Saving model ...
+Epoch: 7/55 	Training Loss: 2.190366 	Validation Loss: 2.162105
+Validation loss decreased (2.055409 --&gt; 2.051777).  Saving model ...
+Validation loss decreased (2.051777 --&gt; 2.042876).  Saving model ...
+Validation loss decreased (2.042876 --&gt; 1.993571).  Saving model ...
+Epoch: 8/55 	Training Loss: 2.138320 	Validation Loss: 2.134559
+Validation loss decreased (1.993571 --&gt; 1.909728).  Saving model ...
+Epoch: 9/55 	Training Loss: 2.104941 	Validation Loss: 2.098807
+Epoch: 10/55 	Training Loss: 2.068348 	Validation Loss: 2.070086
+Epoch: 11/55 	Training Loss: 2.047701 	Validation Loss: 2.036146
+Epoch: 12/55 	Training Loss: 2.038770 	Validation Loss: 2.048578
+Epoch: 13/55 	Training Loss: 2.009208 	Validation Loss: 2.018548
+Epoch: 14/55 	Training Loss: 1.998640 	Validation Loss: 2.006546
+Validation loss decreased (1.909728 --&gt; 1.899398).  Saving model ...
+Validation loss decreased (1.899398 --&gt; 1.883724).  Saving model ...
+Epoch: 15/55 	Training Loss: 1.981088 	Validation Loss: 1.991880
+Validation loss decreased (1.883724 --&gt; 1.873746).  Saving model ...
+Epoch: 16/55 	Training Loss: 1.969151 	Validation Loss: 1.997473
+Validation loss decreased (1.873746 --&gt; 1.866438).  Saving model ...
+Epoch: 17/55 	Training Loss: 1.953388 	Validation Loss: 1.946618
+Epoch: 18/55 	Training Loss: 1.950819 	Validation Loss: 1.965879
+Epoch: 19/55 	Training Loss: 1.948667 	Validation Loss: 1.963904
+Validation loss decreased (1.866438 --&gt; 1.855342).  Saving model ...
+Epoch: 20/55 	Training Loss: 1.944165 	Validation Loss: 1.969846
+Epoch: 21/55 	Training Loss: 1.941198 	Validation Loss: 1.949010
+Epoch: 22/55 	Training Loss: 1.922534 	Validation Loss: 1.942000
+Validation loss decreased (1.855342 --&gt; 1.851487).  Saving model ...
+Epoch: 23/55 	Training Loss: 1.914563 	Validation Loss: 1.938490
+Epoch: 24/55 	Training Loss: 1.928214 	Validation Loss: 1.929751
+Validation loss decreased (1.851487 --&gt; 1.844391).  Saving model ...
+Epoch: 25/55 	Training Loss: 1.911889 	Validation Loss: 1.933777
+Epoch: 26/55 	Training Loss: 1.900431 	Validation Loss: 1.944937
+Validation loss decreased (1.844391 --&gt; 1.835000).  Saving model ...
+Epoch: 27/55 	Training Loss: 1.917603 	Validation Loss: 1.929810
+Epoch: 28/55 	Training Loss: 1.907650 	Validation Loss: 1.943587
+Epoch: 29/55 	Training Loss: 1.910211 	Validation Loss: 1.925780
+Validation loss decreased (1.835000 --&gt; 1.834973).  Saving model ...
+Epoch: 30/55 	Training Loss: 1.903641 	Validation Loss: 1.913804
+Validation loss decreased (1.834973 --&gt; 1.834289).  Saving model ...
+Epoch: 31/55 	Training Loss: 1.903006 	Validation Loss: 1.919334
+Epoch: 32/55 	Training Loss: 1.900597 	Validation Loss: 1.936941
+Validation loss decreased (1.834289 --&gt; 1.829669).  Saving model ...
+Epoch: 33/55 	Training Loss: 1.890968 	Validation Loss: 1.907408
+Epoch: 34/55 	Training Loss: 1.884483 	Validation Loss: 1.912301
+Epoch: 35/55 	Training Loss: 1.886838 	Validation Loss: 1.917573
+Epoch: 36/55 	Training Loss: 1.884816 	Validation Loss: 1.919491
+Epoch: 37/55 	Training Loss: 1.898858 	Validation Loss: 1.955424
+Epoch: 38/55 	Training Loss: 1.901708 	Validation Loss: 1.921038
+Epoch: 39/55 	Training Loss: 1.891307 	Validation Loss: 1.916259
+Validation loss decreased (1.829669 --&gt; 1.820971).  Saving model ...
+Epoch: 40/55 	Training Loss: 1.897046 	Validation Loss: 1.909674
+Epoch: 41/55 	Training Loss: 1.903818 	Validation Loss: 1.925985
+Epoch: 42/55 	Training Loss: 1.895730 	Validation Loss: 1.918099
+Epoch: 43/55 	Training Loss: 1.888648 	Validation Loss: 1.920298
+Epoch: 44/55 	Training Loss: 1.889410 	Validation Loss: 1.925482
+Epoch: 45/55 	Training Loss: 1.887876 	Validation Loss: 1.915337
+Epoch: 46/55 	Training Loss: 1.879012 	Validation Loss: 1.915596
+Epoch: 47/55 	Training Loss: 1.896545 	Validation Loss: 1.912759
+Epoch: 48/55 	Training Loss: 1.893514 	Validation Loss: 1.919740
+Epoch: 49/55 	Training Loss: 1.907513 	Validation Loss: 1.918298
+Epoch: 50/55 	Training Loss: 1.899047 	Validation Loss: 1.918571
+Epoch: 51/55 	Training Loss: 1.895767 	Validation Loss: 1.908991
+Epoch: 52/55 	Training Loss: 1.892684 	Validation Loss: 1.918449
+Epoch: 53/55 	Training Loss: 1.904659 	Validation Loss: 1.916269
+Epoch: 54/55 	Training Loss: 1.896716 	Validation Loss: 1.903659
+Epoch: 55/55 	Training Loss: 1.900206 	Validation Loss: 1.927917
 </pre></div>
 </div>
 </div>
@@ -1257,80 +1268,76 @@ Epoch: 55/55 	Training Loss: 1.875477 	Validation Loss: 1.924663
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.393660).  Saving model ...
-Validation loss decreased (2.393660 --&gt; 2.349475).  Saving model ...
-Validation loss decreased (2.349475 --&gt; 2.343988).  Saving model ...
-Epoch: 1/55 	Training Loss: 2.547561 	Validation Loss: 2.420918
-Validation loss decreased (2.343988 --&gt; 2.285839).  Saving model ...
-Validation loss decreased (2.285839 --&gt; 2.205021).  Saving model ...
-Validation loss decreased (2.205021 --&gt; 2.162819).  Saving model ...
-Validation loss decreased (2.162819 --&gt; 2.143725).  Saving model ...
-Epoch: 2/55 	Training Loss: 2.314393 	Validation Loss: 2.283260
-Validation loss decreased (2.143725 --&gt; 2.143002).  Saving model ...
-Validation loss decreased (2.143002 --&gt; 2.114893).  Saving model ...
-Validation loss decreased (2.114893 --&gt; 2.087795).  Saving model ...
-Validation loss decreased (2.087795 --&gt; 2.085649).  Saving model ...
-Epoch: 3/55 	Training Loss: 2.205447 	Validation Loss: 2.231950
-Validation loss decreased (2.085649 --&gt; 2.084089).  Saving model ...
-Validation loss decreased (2.084089 --&gt; 2.011329).  Saving model ...
-Epoch: 4/55 	Training Loss: 2.151215 	Validation Loss: 2.195237
-Epoch: 5/55 	Training Loss: 2.129234 	Validation Loss: 2.165178
-Validation loss decreased (2.011329 --&gt; 2.004776).  Saving model ...
-Epoch: 6/55 	Training Loss: 2.102778 	Validation Loss: 2.158245
-Validation loss decreased (2.004776 --&gt; 1.971976).  Saving model ...
-Epoch: 7/55 	Training Loss: 2.089170 	Validation Loss: 2.148022
-Validation loss decreased (1.971976 --&gt; 1.955443).  Saving model ...
-Epoch: 8/55 	Training Loss: 2.071291 	Validation Loss: 2.149593
-Epoch: 9/55 	Training Loss: 2.072371 	Validation Loss: 2.162316
-Epoch: 10/55 	Training Loss: 2.073714 	Validation Loss: 2.142117
-Epoch: 11/55 	Training Loss: 2.057137 	Validation Loss: 2.200862
-Epoch: 12/55 	Training Loss: 2.079176 	Validation Loss: 2.141863
-Epoch: 13/55 	Training Loss: 2.050327 	Validation Loss: 2.135885
-Epoch: 14/55 	Training Loss: 2.037013 	Validation Loss: 2.133004
-Epoch: 15/55 	Training Loss: 2.035291 	Validation Loss: 2.130901
-Epoch: 16/55 	Training Loss: 2.015747 	Validation Loss: 2.113473
-Epoch: 17/55 	Training Loss: 2.021580 	Validation Loss: 2.117173
-Epoch: 18/55 	Training Loss: 2.017030 	Validation Loss: 2.105281
-Epoch: 19/55 	Training Loss: 2.005915 	Validation Loss: 2.099708
-Epoch: 20/55 	Training Loss: 1.993390 	Validation Loss: 2.094073
-Validation loss decreased (1.955443 --&gt; 1.940374).  Saving model ...
-Epoch: 21/55 	Training Loss: 2.004613 	Validation Loss: 2.086799
-Epoch: 22/55 	Training Loss: 1.998800 	Validation Loss: 2.105437
-Epoch: 23/55 	Training Loss: 1.988821 	Validation Loss: 2.089693
-Validation loss decreased (1.940374 --&gt; 1.915072).  Saving model ...
-Epoch: 24/55 	Training Loss: 1.990459 	Validation Loss: 2.071839
-Epoch: 25/55 	Training Loss: 1.984909 	Validation Loss: 2.097346
-Epoch: 26/55 	Training Loss: 2.005873 	Validation Loss: 2.079458
-Epoch: 27/55 	Training Loss: 1.994819 	Validation Loss: 2.085391
-Epoch: 28/55 	Training Loss: 1.998658 	Validation Loss: 2.117735
-Epoch: 29/55 	Training Loss: 2.009924 	Validation Loss: 2.092815
-Epoch: 30/55 	Training Loss: 2.005395 	Validation Loss: 2.080503
-Epoch: 31/55 	Training Loss: 2.005457 	Validation Loss: 2.108812
-Epoch: 32/55 	Training Loss: 2.008765 	Validation Loss: 2.111199
-Validation loss decreased (1.915072 --&gt; 1.879524).  Saving model ...
-Epoch: 33/55 	Training Loss: 2.010760 	Validation Loss: 2.088136
-Epoch: 34/55 	Training Loss: 2.000449 	Validation Loss: 2.095184
-Epoch: 35/55 	Training Loss: 1.992878 	Validation Loss: 2.071387
-Epoch: 36/55 	Training Loss: 1.982024 	Validation Loss: 2.069904
-Epoch: 37/55 	Training Loss: 1.975181 	Validation Loss: 2.077060
-Epoch: 38/55 	Training Loss: 1.992547 	Validation Loss: 2.098154
-Epoch: 39/55 	Training Loss: 2.005320 	Validation Loss: 2.084858
-Epoch: 40/55 	Training Loss: 2.002863 	Validation Loss: 2.096193
-Epoch: 41/55 	Training Loss: 2.006129 	Validation Loss: 2.095626
-Epoch: 42/55 	Training Loss: 1.999327 	Validation Loss: 2.072743
-Epoch: 43/55 	Training Loss: 2.000198 	Validation Loss: 2.074540
-Epoch: 44/55 	Training Loss: 1.984998 	Validation Loss: 2.068282
-Epoch: 45/55 	Training Loss: 1.998816 	Validation Loss: 2.067018
-Epoch: 46/55 	Training Loss: 1.981946 	Validation Loss: 2.085722
-Epoch: 47/55 	Training Loss: 1.986812 	Validation Loss: 2.084004
-Epoch: 48/55 	Training Loss: 1.974812 	Validation Loss: 2.076586
-Epoch: 49/55 	Training Loss: 1.976456 	Validation Loss: 2.065510
-Epoch: 50/55 	Training Loss: 1.965071 	Validation Loss: 2.077965
-Epoch: 51/55 	Training Loss: 1.968333 	Validation Loss: 2.067781
-Epoch: 52/55 	Training Loss: 1.980085 	Validation Loss: 2.091760
-Epoch: 53/55 	Training Loss: 1.983839 	Validation Loss: 2.074736
-Epoch: 54/55 	Training Loss: 1.988467 	Validation Loss: 2.090234
-Epoch: 55/55 	Training Loss: 1.992952 	Validation Loss: 2.111479
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.422015).  Saving model ...
+Validation loss decreased (2.422015 --&gt; 2.376907).  Saving model ...
+Validation loss decreased (2.376907 --&gt; 2.335912).  Saving model ...
+Validation loss decreased (2.335912 --&gt; 2.303969).  Saving model ...
+Epoch: 1/55 	Training Loss: 2.563656 	Validation Loss: 2.428546
+Validation loss decreased (2.303969 --&gt; 2.269969).  Saving model ...
+Validation loss decreased (2.269969 --&gt; 2.248572).  Saving model ...
+Validation loss decreased (2.248572 --&gt; 2.224157).  Saving model ...
+Validation loss decreased (2.224157 --&gt; 2.155441).  Saving model ...
+Validation loss decreased (2.155441 --&gt; 2.116322).  Saving model ...
+Epoch: 2/55 	Training Loss: 2.348685 	Validation Loss: 2.271245
+Validation loss decreased (2.116322 --&gt; 2.085957).  Saving model ...
+Validation loss decreased (2.085957 --&gt; 2.085741).  Saving model ...
+Validation loss decreased (2.085741 --&gt; 2.071654).  Saving model ...
+Epoch: 3/55 	Training Loss: 2.196029 	Validation Loss: 2.178006
+Validation loss decreased (2.071654 --&gt; 1.977008).  Saving model ...
+Epoch: 4/55 	Training Loss: 2.129561 	Validation Loss: 2.142880
+Epoch: 5/55 	Training Loss: 2.084421 	Validation Loss: 2.122037
+Epoch: 6/55 	Training Loss: 2.057715 	Validation Loss: 2.129871
+Epoch: 7/55 	Training Loss: 2.036273 	Validation Loss: 2.126765
+Validation loss decreased (1.977008 --&gt; 1.968500).  Saving model ...
+Epoch: 8/55 	Training Loss: 2.048496 	Validation Loss: 2.121880
+Validation loss decreased (1.968500 --&gt; 1.889096).  Saving model ...
+Epoch: 9/55 	Training Loss: 2.030007 	Validation Loss: 2.111317
+Epoch: 10/55 	Training Loss: 2.020886 	Validation Loss: 2.094932
+Epoch: 11/55 	Training Loss: 1.996178 	Validation Loss: 2.085559
+Epoch: 12/55 	Training Loss: 1.998837 	Validation Loss: 2.092115
+Epoch: 13/55 	Training Loss: 2.000095 	Validation Loss: 2.080945
+Epoch: 14/55 	Training Loss: 1.994162 	Validation Loss: 2.089233
+Epoch: 15/55 	Training Loss: 1.996156 	Validation Loss: 2.108320
+Epoch: 16/55 	Training Loss: 2.007566 	Validation Loss: 2.084050
+Epoch: 17/55 	Training Loss: 1.985586 	Validation Loss: 2.073152
+Epoch: 18/55 	Training Loss: 1.993401 	Validation Loss: 2.070163
+Epoch: 19/55 	Training Loss: 1.986316 	Validation Loss: 2.076518
+Epoch: 20/55 	Training Loss: 1.983077 	Validation Loss: 2.061860
+Epoch: 21/55 	Training Loss: 1.996149 	Validation Loss: 2.054790
+Epoch: 22/55 	Training Loss: 1.967429 	Validation Loss: 2.066489
+Epoch: 23/55 	Training Loss: 1.984709 	Validation Loss: 2.093876
+Epoch: 24/55 	Training Loss: 1.979075 	Validation Loss: 2.077681
+Epoch: 25/55 	Training Loss: 1.982294 	Validation Loss: 2.096415
+Epoch: 26/55 	Training Loss: 1.973675 	Validation Loss: 2.076921
+Epoch: 27/55 	Training Loss: 1.964406 	Validation Loss: 2.090124
+Epoch: 28/55 	Training Loss: 1.980116 	Validation Loss: 2.081712
+Epoch: 29/55 	Training Loss: 1.962143 	Validation Loss: 2.081289
+Epoch: 30/55 	Training Loss: 1.974701 	Validation Loss: 2.066577
+Epoch: 31/55 	Training Loss: 1.968854 	Validation Loss: 2.091212
+Epoch: 32/55 	Training Loss: 1.953341 	Validation Loss: 2.076133
+Epoch: 33/55 	Training Loss: 1.974910 	Validation Loss: 2.093644
+Epoch: 34/55 	Training Loss: 1.957789 	Validation Loss: 2.078688
+Epoch: 35/55 	Training Loss: 1.958971 	Validation Loss: 2.067443
+Epoch: 36/55 	Training Loss: 1.959811 	Validation Loss: 2.051086
+Epoch: 37/55 	Training Loss: 1.976155 	Validation Loss: 2.084976
+Epoch: 38/55 	Training Loss: 1.971317 	Validation Loss: 2.096778
+Epoch: 39/55 	Training Loss: 1.958588 	Validation Loss: 2.068924
+Epoch: 40/55 	Training Loss: 1.949908 	Validation Loss: 2.075089
+Epoch: 41/55 	Training Loss: 1.947344 	Validation Loss: 2.052791
+Epoch: 42/55 	Training Loss: 1.947270 	Validation Loss: 2.058985
+Epoch: 43/55 	Training Loss: 1.965396 	Validation Loss: 2.070025
+Epoch: 44/55 	Training Loss: 1.970215 	Validation Loss: 2.071964
+Epoch: 45/55 	Training Loss: 1.973393 	Validation Loss: 2.077985
+Epoch: 46/55 	Training Loss: 1.978949 	Validation Loss: 2.059918
+Epoch: 47/55 	Training Loss: 1.971404 	Validation Loss: 2.069267
+Epoch: 48/55 	Training Loss: 1.982532 	Validation Loss: 2.104422
+Epoch: 49/55 	Training Loss: 2.008340 	Validation Loss: 2.078214
+Epoch: 50/55 	Training Loss: 1.989522 	Validation Loss: 2.075344
+Epoch: 51/55 	Training Loss: 1.991567 	Validation Loss: 2.077237
+Epoch: 52/55 	Training Loss: 1.975485 	Validation Loss: 2.077528
+Epoch: 53/55 	Training Loss: 1.961578 	Validation Loss: 2.054097
+Epoch: 54/55 	Training Loss: 1.979123 	Validation Loss: 2.089335
+Epoch: 55/55 	Training Loss: 1.971909 	Validation Loss: 2.074417
 </pre></div>
 </div>
 </div>
@@ -1420,7 +1427,7 @@ Epoch: 55/55 	Training Loss: 1.992952 	Validation Loss: 2.111479
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy: 91.270 %
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy: 90.476 %
 </pre></div>
 </div>
 </div>
@@ -1448,7 +1455,7 @@ Epoch: 55/55 	Training Loss: 1.992952 	Validation Loss: 2.111479
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy: 78.224 %
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy: 76.042 %
 </pre></div>
 </div>
 </div>
@@ -1458,7 +1465,7 @@ Epoch: 55/55 	Training Loss: 1.992952 	Validation Loss: 2.111479
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
 <p>Adding an Attention Layer has increased the model accuracy as expected.
-The model furthur can be extended/improved by using other methods such as <code class="docutils literal notranslate"><span class="pre">transformers</span></code></p>
+The model furthur can be extended/improved by using other methods such as in: <a class="reference external" href="https://akshatyadav0.github.io/P_Lab_Works/Transformers.html">transformers</a> notebook</p>
 </section>
 </section>
 
@@ -1495,6 +1502,13 @@ The model furthur can be extended/improved by using other methods such as <code 
             <p class="prev-next-subtitle">previous</p>
             <p class="prev-next-title">Home</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="Transformers.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Transformers</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             </footer>
