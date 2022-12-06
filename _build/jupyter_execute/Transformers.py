@@ -186,45 +186,33 @@ device
 # ### Positional Encodings
 # <img src = "po_enc.png">
 
-# In[8]:
+# In[43]:
 
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, seq_len):
+    def __init__(self,d_model,seq_len):
         """
-        :param d_model: dimension of model
-        :param max_len: max sequence length
-        :param device: hardware device setting
+        Args:
+            seq_len: length of input sequence
+            d_model: demension of encoding
         """
         super(PositionalEncoding, self).__init__()
-
-        # same size with input matrix (for adding with input matrix)
+        self.d_model = d_model
+        self.seq_len = seq_len
+        pe = torch.zeros(seq_len,self.d_model)
         
-        self.encoding = torch.zeros(seq_len, d_model, device=device)
-        self.encoding.requires_grad = False
+        for pos in range(seq_len):
+            for i in range(0,self.d_model,2):
+                pe[pos, i] = torch.sin(pos / (10000 ** ((2 * i)/self.d_model)))
+                pe[pos, i + 1] = torch.cos(pos / (10000 ** ((2 * (i + 1))/self.d_model)))
+        pe = pe.unsqueeze(0)
+        self.register_buffer('pe', pe)
 
-        pos = torch.arange(0, seq_len, device=device)
-        pos = pos.float().unsqueeze(dim=1)
-        # 1D => 2D unsqueeze to represent position
-
-        _2i = torch.arange(0, d_model, step=2, device=device).float()
-        # 'i' means index of d_model (e.g. embedding size = 50, 'i' = [0,50])
-        # "step=2" means 'i' multiplied with two (same with 2 * i)
-
-        self.encoding[:, 0::2] = torch.sin(pos / (10000 ** (_2i / d_model)))
-        self.encoding[:, 1::2] = torch.cos(pos / (10000 ** (_2i / d_model)))
-        # compute positional encoding to consider positional information
 
     def forward(self, x):
-        # self.encoding
-        # [max_len = 512, d_model = 512]
 
-        batch_size, seq_len = x.size()
-        # [batch_size = 128, seq_len = 30]
-
-        return self.encoding[:seq_len, :]
-        # [seq_len = 30, d_model = 512]
-        # it will add with tok_emb : [128, 30, 512]         
+        x = x + torch.autograd.Variable(self.pe[:,:self.seq_len], requires_grad=False)
+        return x
 
 
 # ### Self Attention
@@ -304,7 +292,7 @@ class MultiHeadAttention(nn.Module):
     def split(self, tensor):
         """
         split tensor by number of head
-
+        
         :param tensor: [batch_size, length, d_model]
         :return: [batch_size, head, length, d_tensor]
         """
@@ -329,7 +317,7 @@ class MultiHeadAttention(nn.Module):
 
 # ### Feed Forward
 
-# In[49]:
+# In[11]:
 
 
 class FeedForward(nn.Module):
@@ -351,7 +339,7 @@ class FeedForward(nn.Module):
 
 # ### Transformer Block
 
-# In[55]:
+# In[12]:
 
 
 class TransformerBlock(nn.Module):
@@ -405,9 +393,9 @@ class TransformerBlock(nn.Module):
         return x
 
 
-# ### Complied Model
+# ### Complied Model (No PoE)
 
-# In[56]:
+# In[13]:
 
 
 class Transformer_Model(nn.Module):
@@ -420,19 +408,42 @@ class Transformer_Model(nn.Module):
         
     def forward(self, x):
         for layer in self.layers:
-            x = layer(x)#,x,x)
+            x = layer(x)
+        x = self.linear_out(x)
+    
+        return x
+
+
+# ### Complied Model (with PoE)
+
+# In[44]:
+
+
+class Transformer_Model_PoE(nn.Module):
+
+    def __init__(self, d_model, feed_fwd, out_dim, n_layers, n_head, drop_prob):
+        super(Transformer_Model_PoE, self).__init__()
+        
+        self.po_en = PositionalEncoding(d_model,seq_len=198)
+        self.layers = nn.ModuleList([TransformerBlock(d_model, feed_fwd, n_head, drop_prob) for i in range(n_layers)])
+        self.linear_out = nn.Linear(d_model,out_dim)
+        
+    def forward(self, x):
+        x = self.po_en(x)
+        for layer in self.layers:
+            x = layer(x)
 
         x = self.linear_out(x)
     
         return x
 
 
-# ## Training
+# ## Training (No PoE)
 
-# In[70]:
+# In[15]:
 
 
-def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
+def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att_name):
     val_acc = []
     tr_acc = []
     
@@ -500,10 +511,10 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
             if val_loss.item() <= valid_loss_min:
                 print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(valid_loss_min, val_loss.item()))
                 best_epoch = e
-                if att:
-                    torch.save(net.state_dict(), 'Trns_Multi_Att.pt')
-                else:
-                    torch.save(net.state_dict(), 'Trns_Single_Att.pt')
+                #if att:
+                torch.save(net.state_dict(), f'{att_name}.pt')
+                #else:
+                #    torch.save(net.state_dict(), 'Trns_Single_Att.pt')
                 valid_loss_min = val_loss.item()
 
         net.train()
@@ -515,7 +526,7 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att=True):
     return train_losses,valid_losses,tr_acc,val_acc,best_epoch
 
 
-# In[68]:
+# In[16]:
 
 
 epochs     = 100
@@ -528,9 +539,9 @@ drop_prob  = 0.0006
 lr         = 0.001
 
 
-# ### Multi-Head Attention (No PoE)
+# ### Multi-Head Attention
 
-# In[57]:
+# In[60]:
 
 
 model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
@@ -539,13 +550,13 @@ criterion = nn.CrossEntropyLoss()
 model
 
 
-# In[58]:
+# In[61]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion)
+train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "Multi_Att")
 
 
-# In[59]:
+# In[63]:
 
 
 import matplotlib.pyplot as plt
@@ -563,7 +574,7 @@ axis[0].axvline(best_epoch, color='black')
 axis[0].set_xticks(xi)
 axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
 axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with Multi-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_title("Losses (with Multi-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
 
 
@@ -572,13 +583,13 @@ axis[1].plot(x,val_acc)
 axis[1].set_xticks(xi)
 axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with Multi-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_title("Accuracies (with Multi-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[1].legend(["Training Accuracy","Valid Accuracy"]);
 
 
-# ### Single-Head Attention (No PoE)
+# ### Single-Head Attention
 
-# In[69]:
+# In[20]:
 
 
 n_head = 1
@@ -588,13 +599,13 @@ criterion = nn.CrossEntropyLoss()
 model
 
 
-# In[71]:
+# In[21]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att=False)
+train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "Single_Att")
 
 
-# In[72]:
+# In[22]:
 
 
 x     = [i for i in range(1,epochs+1)]
@@ -611,7 +622,7 @@ axis[0].axvline(best_epoch, color='black')
 axis[0].set_xticks(xi)
 axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
 axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with 1-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_title("Losses (with 1-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
 
 
@@ -620,13 +631,13 @@ axis[1].plot(x,val_acc)
 axis[1].set_xticks(xi)
 axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with 1-Head Attention)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_title("Accuracies (with 1-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
 axis[1].legend(["Training Accuracy","Valid Accuracy"]);
 
 
-# ## Testing
+# ## Testing (No PoE)
 
-# In[60]:
+# In[64]:
 
 
 def test(test_loader,net):
@@ -649,31 +660,173 @@ def test(test_loader,net):
     print("Test accuracy: {:.3f} %".format(test_acc*100))
 
 
-# ### Multi-Head Attention (No PoE)
+# ### Multi-Head Attention
 
-# In[62]:
+# In[65]:
 
 
 model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('Trns_Multi_Att.pt'))
+model.load_state_dict(torch.load('Multi_Att.pt'))
 
 
-# In[63]:
+# In[66]:
 
 
 test(test_loader,model)
 
 
-# ### Single-Head Attention (No PoE)
+# ### Single-Head Attention
 
-# In[73]:
+# In[58]:
 
 
 model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('Trns_Single_Att.pt'))
+model.load_state_dict(torch.load('Single_Att.pt'))
 
 
-# In[74]:
+# In[59]:
+
+
+test(test_loader,model)
+
+
+# ## Training (with PoE)
+
+# ### Multi-Head Attention
+
+# In[45]:
+
+
+epochs     = 100
+d_model    = 300
+feed_fwd   = 150
+output_dim = 15
+n_head     = 4
+n_layers   = 2
+drop_prob  = 0.0006
+lr         = 0.001
+
+
+# In[46]:
+
+
+model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+criterion = nn.CrossEntropyLoss()
+model
+
+
+# In[47]:
+
+
+train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "PoE_Multi_Att")
+
+
+# In[48]:
+
+
+x     = [i for i in range(1,epochs+1)]
+xi    = [i for i in range(0,epochs+5,5)]
+xi[0] = 1
+f, axis = plt.subplots(2,1)
+f.set_figwidth(20)
+f.set_figheight(12)
+plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
+
+axis[0].plot(x,train_losses)
+axis[0].plot(x,valid_losses)
+axis[0].axvline(best_epoch, color='black')
+axis[0].set_xticks(xi)
+axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_title("Losses (with Multi-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
+
+
+axis[1].plot(x,tr_acc)
+axis[1].plot(x,val_acc)
+axis[1].set_xticks(xi)
+axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_title("Accuracies (with Multi-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].legend(["Training Accuracy","Valid Accuracy"]);
+
+
+# ### Single-Head Attention
+
+# In[51]:
+
+
+n_head = 1
+model  = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+criterion = nn.CrossEntropyLoss()
+model
+
+
+# In[52]:
+
+
+train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "PoE_Single_Att")
+
+
+# In[53]:
+
+
+x     = [i for i in range(1,epochs+1)]
+xi    = [i for i in range(0,epochs+5,5)]
+xi[0] = 1
+f, axis = plt.subplots(2,1)
+f.set_figwidth(20)
+f.set_figheight(12)
+plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
+
+axis[0].plot(x,train_losses)
+axis[0].plot(x,valid_losses)
+axis[0].axvline(best_epoch, color='black')
+axis[0].set_xticks(xi)
+axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].set_title("Losses (with 1-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
+
+
+axis[1].plot(x,tr_acc)
+axis[1].plot(x,val_acc)
+axis[1].set_xticks(xi)
+axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].set_title("Accuracies (with 1-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis[1].legend(["Training Accuracy","Valid Accuracy"]);
+
+
+# ## Testing (with PoE)
+
+# ### Multi-Head
+
+# In[49]:
+
+
+model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model.load_state_dict(torch.load('PoE_Multi_Att.pt'))
+
+
+# In[50]:
+
+
+test(test_loader,model)
+
+
+# ### Single-Head
+
+# In[54]:
+
+
+model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model.load_state_dict(torch.load('PoE_Single_Att.pt'))
+
+
+# In[55]:
 
 
 test(test_loader,model)
