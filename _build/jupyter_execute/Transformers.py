@@ -20,7 +20,10 @@
 import torch
 import pickle
 import numpy as np
+from ray import tune
 import torch.nn as nn
+from ray.tune import CLIReporter
+from ray.tune.schedulers import ASHAScheduler
 
 
 # In[2]:
@@ -36,20 +39,25 @@ print(TS.keys())
 
 rel = {}
 l = 0
+seq_length = 0
+time_changes = []
 for movie_name, ts in TS.items():
     rel[movie_name] = l
     l += 1
+    seq_length = max(seq_length, ts.shape[-2])
+    time_changes.append(ts.shape[-2])
     print(movie_name, ts.shape)
+time_changes = np.array(time_changes)
+time = [i for i in range(1,seq_length+1)]
 
 
-# In[4]:
+# In[ ]:
 
 
 train_feature = []
 test_feature  = []
 train_target  = []
 test_target   = []
-seq_length    = 198
 
 for movie_name, ts in TS.items():
     pep = 0
@@ -67,13 +75,14 @@ for movie_name, ts in TS.items():
                     train_target.append(rel[movie_name])
                 
                 elif i.shape[0]<seq_length:
-                    k = [[0]*300]*seq_length
+                    k = [[-1]*300]*seq_length
                     k[seq_length-i.shape[0]:] = i
                     train_feature.append(k)
-                    train_target.append(rel[movie_name])
+                    k = [[rel[movie_name]] for _ in range(i.shape[0])] + [[-100] for _ in range(seq_length-i.shape[0])]
+                    train_target.append(k)
                 else:
                     train_feature.append(i)
-                    train_target.append(rel[movie_name])
+                    train_target.append([[rel[movie_name]] for _ in range(seq_length)])
 
             else:
                 if i.shape[0]>seq_length:
@@ -86,20 +95,21 @@ for movie_name, ts in TS.items():
                     test_target.append(rel[movie_name])
                 
                 elif i.shape[0]<seq_length:
-                    k = [[0]*300]*seq_length
+                    k = [[-1]*300]*seq_length
                     k[seq_length-i.shape[0]:] = i
                     test_feature.append(k)
-                    test_target.append(rel[movie_name])
+                    k = [[rel[movie_name]] for _ in range(i.shape[0])] + [[-100] for _ in range(seq_length-i.shape[0])]
+                    test_target.append(k)
                 else:
                     test_feature.append(i)
-                    test_target.append(rel[movie_name])
+                    test_target.append([[rel[movie_name]] for _ in range(seq_length)])
         print(pep)
     else:
         for jj in ts:
             pep = 0
             for i in jj:
                 pep += 1
-                if (pep <= 101):
+                if (pep <= 106):
                     if i.shape[0]>seq_length:
                         k = i[:seq_length][:]
                         train_feature.append(k)
@@ -110,13 +120,14 @@ for movie_name, ts in TS.items():
                         train_target.append(rel[movie_name])
 
                     elif i.shape[0]<seq_length:
-                        k = [[0]*300]*seq_length
+                        k = [[-1]*300]*seq_length
                         k[seq_length-i.shape[0]:] = i
                         train_feature.append(k)
-                        train_target.append(rel[movie_name])
+                        k = [[rel[movie_name]] for _ in range(i.shape[0])] + [[-100] for _ in range(seq_length-i.shape[0])]
+                        train_target.append(k)
                     else:
                         train_feature.append(i)
-                        train_target.append(rel[movie_name])
+                        train_target.append([[rel[movie_name]] for _ in range(seq_length)])
 
                 else:
                     if i.shape[0]>seq_length:
@@ -129,13 +140,14 @@ for movie_name, ts in TS.items():
                         test_target.append(rel[movie_name])
 
                     elif i.shape[0]<seq_length:
-                        k = [[0]*300]*seq_length
+                        k = [[-1]*300]*seq_length
                         k[seq_length-i.shape[0]:] = i
                         test_feature.append(k)
-                        test_target.append(rel[movie_name])
+                        k = [[rel[movie_name]] for _ in range(i.shape[0])] + [[-100] for _ in range(seq_length-i.shape[0])]
+                        test_target.append(k)
                     else:
                         test_feature.append(i)
-                        test_target.append(rel[movie_name])
+                        test_target.append([[rel[movie_name]]*15 for _ in range(seq_length)])
             print(pep)
 
 
@@ -154,18 +166,18 @@ test_data  = TensorDataset(torch.from_numpy(np.array(test_feature)).float(),torc
 from torch.utils.data.sampler import SubsetRandomSampler
 
 batch_size = 32
-valid_data  = 0.25
+valid_data  = 0.246
 t_train     = len(train_data)
 data_no     = list(range(t_train))
 np.random.shuffle(data_no)
-split_no    = int(np.ceil(valid_data*t_train))
+split_no    = int(valid_data*t_train)
 train,valid = data_no[split_no:],data_no[:split_no]
 
 train_sampler = SubsetRandomSampler(train)
 valid_sampler = SubsetRandomSampler(valid)
 
-train_loader  = DataLoader(train_data,batch_size=batch_size,sampler=train_sampler,drop_last=True)
-valid_loader  = DataLoader(train_data,sampler=valid_sampler,batch_size=batch_size,drop_last=True)
+train_loader  = DataLoader(train_data,batch_size=batch_size,sampler=train_sampler)#drop_last=True)
+valid_loader  = DataLoader(train_data,sampler=valid_sampler,batch_size=batch_size)#drop_last=True)
 test_loader   = DataLoader(test_data, batch_size=batch_size,shuffle = True)
 
 
@@ -186,7 +198,7 @@ device
 # ### Positional Encodings
 # <img src = "po_enc.png">
 
-# In[43]:
+# In[8]:
 
 
 class PositionalEncoding(nn.Module):
@@ -203,14 +215,13 @@ class PositionalEncoding(nn.Module):
         
         for pos in range(seq_len):
             for i in range(0,self.d_model,2):
-                pe[pos, i] = torch.sin(pos / (10000 ** ((2 * i)/self.d_model)))
-                pe[pos, i + 1] = torch.cos(pos / (10000 ** ((2 * (i + 1))/self.d_model)))
+                pe[pos, i] = np.sin(pos / (10000 ** ((2 * i)/self.d_model)))
+                pe[pos, i + 1] = np.cos(pos / (10000 ** ((2 * (i + 1))/self.d_model)))
         pe = pe.unsqueeze(0)
         self.register_buffer('pe', pe)
 
 
     def forward(self, x):
-
         x = x + torch.autograd.Variable(self.pe[:,:self.seq_len], requires_grad=False)
         return x
 
@@ -284,8 +295,6 @@ class MultiHeadAttention(nn.Module):
         # 4. concat and pass to linear layer
         out = self.concat(out)
         out = self.w_concat(out)
-
-        # visualize attention map => may implement visualization
         
         return out
 
@@ -321,7 +330,7 @@ class MultiHeadAttention(nn.Module):
 
 
 class FeedForward(nn.Module):
-    def __init__(self, d_model, feed_fwd, dropout = 0.1):
+    def __init__(self, d_model, feed_fwd, dropout):
         super().__init__() 
         
         self.l1 = nn.Linear(d_model, feed_fwd)
@@ -356,7 +365,7 @@ class TransformerBlock(nn.Module):
         
         self.attention = MultiHeadAttention(d_model=d_model, n_head=n_head)
         
-        self.norm1 = nn.LayerNorm(d_model) 
+        self.norm1 = nn.LayerNorm(d_model)
         self.norm2 = nn.LayerNorm(d_model)
         
         self.feed_fwd = FeedForward(d_model=d_model, feed_fwd=feed_fwd, dropout=drop_prob)
@@ -404,19 +413,20 @@ class Transformer_Model(nn.Module):
         super(Transformer_Model, self).__init__()
 
         self.layers = nn.ModuleList([TransformerBlock(d_model, feed_fwd, n_head, drop_prob) for i in range(n_layers)])
+        #nn.Transformer(d_model=300, nhead=4, num_encoder_layers=1, num_decoder_layers=1, dim_feedforward=1024, dropout=0.1)
         self.linear_out = nn.Linear(d_model,out_dim)
-        
+        self.fu = nn.Softmax(dim=-1)
+    
     def forward(self, x):
         for layer in self.layers:
             x = layer(x)
         x = self.linear_out(x)
-    
-        return x
+        return self.fu(x)
 
 
 # ### Complied Model (with PoE)
 
-# In[44]:
+# In[14]:
 
 
 class Transformer_Model_PoE(nn.Module):
@@ -424,7 +434,7 @@ class Transformer_Model_PoE(nn.Module):
     def __init__(self, d_model, feed_fwd, out_dim, n_layers, n_head, drop_prob):
         super(Transformer_Model_PoE, self).__init__()
         
-        self.po_en = PositionalEncoding(d_model,seq_len=198)
+        self.po_en = PositionalEncoding(d_model,seq_len=seq_length)
         self.layers = nn.ModuleList([TransformerBlock(d_model, feed_fwd, n_head, drop_prob) for i in range(n_layers)])
         self.linear_out = nn.Linear(d_model,out_dim)
         
@@ -432,9 +442,7 @@ class Transformer_Model_PoE(nn.Module):
         x = self.po_en(x)
         for layer in self.layers:
             x = layer(x)
-
         x = self.linear_out(x)
-    
         return x
 
 
@@ -443,10 +451,7 @@ class Transformer_Model_PoE(nn.Module):
 # In[15]:
 
 
-def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att_name):
-    val_acc = []
-    tr_acc = []
-    
+def train(epochs,train_loader,net,valid_loader,optimizer,criterion,att_name):
     clip = 3 # gradient clipping
 
     net.to(device)
@@ -458,376 +463,433 @@ def train(epochs,train_loader,net,valid_loader,optimzer,criterion,att_name):
     train_losses = []
     
     for e in range(epochs):
-        num_correct = 0
         train_loss = []
         valid_loss = []
-        train_acc  = 0.0
-        valid_acc  = 0.0 
-        counter = 0
+
         for inputs, labels in train_loader:
             
             inputs, labels = inputs.to(device), labels.type(torch.LongTensor).to(device)
             net.zero_grad()
-
-            output = net(inputs)[:, -1, :]
-            #print(output[:, -1, :].shape)
-            pred = torch.round(output.squeeze()) 
-            
-            top_value, top_index = torch.max(pred,1)
-            
-            correct_tensor = top_index.eq(labels.float().view_as(top_index))
-            correct = np.squeeze(correct_tensor.to('cpu').numpy())
-            num_correct += np.sum(correct)
-
-
-            loss = criterion(output, labels)
+            output = net(inputs)
+            loss = criterion(output.permute(0,2,1), labels.squeeze())
             loss.backward()
             nn.utils.clip_grad_norm_(net.parameters(), clip)
             optimizer.step()
-
             train_loss.append(loss.item())
-        tr_acc.append(num_correct/((len(train_loader)-1)*batch_size))
-
-        acc = 0.0
+        
         val_losses = []
         net.eval()
-        num_correct = 0
-        v_c = 0
         
         for inputs, labels in valid_loader:
             inputs, labels = inputs.to(device), labels.type(torch.LongTensor).to(device)
-
-            output= net(inputs)[:, -1, :]
-            
-            pred = torch.round(output.squeeze()) 
-            top_value, top_index = torch.max(pred,1)
-            correct_tensor = top_index.eq(labels.float().view_as(top_index))
-            correct = np.squeeze(correct_tensor.to('cpu').numpy())
-            num_correct += np.sum(correct)
-
-            val_loss = criterion(output.squeeze(),labels)
+            output= net(inputs)
+            val_loss = criterion(output.permute(0,2,1),labels.squeeze())
             val_losses.append(val_loss.item())
-            
-            if val_loss.item() <= valid_loss_min:
-                print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(valid_loss_min, val_loss.item()))
-                best_epoch = e
-                #if att:
-                torch.save(net.state_dict(), f'{att_name}.pt')
-                #else:
-                #    torch.save(net.state_dict(), 'Trns_Single_Att.pt')
-                valid_loss_min = val_loss.item()
+        if np.mean(val_losses) <= valid_loss_min:
+            print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(valid_loss_min, np.mean(val_losses)))
+            best_epoch = e
+            torch.save(net.state_dict(), f'{att_name}.pt')
+            valid_loss_min = np.mean(val_losses)
 
         net.train()
         valid_losses.append(np.mean(val_losses))
         train_losses.append(np.mean(train_loss))
-        val_acc.append(num_correct/(len(valid_loader)*batch_size))
         print('Epoch: {}/{} \tTraining Loss: {:.6f} \tValidation Loss: {:.6f}'.format(e+1,epochs,np.mean(train_loss),np.mean(val_losses)))
     
-    return train_losses,valid_losses,tr_acc,val_acc,best_epoch
+    return train_losses,valid_losses,best_epoch
 
 
 # In[16]:
 
 
+def calc(pred,lab):
+    pred_2 = torch.where(lab!=-100,pred,100)
+    al = np.array((pred_2-lab).to('cpu'))
+    z = al.shape[0] - np.sum(al==200,axis=0)
+    y = al.shape[0] - np.count_nonzero(al, axis=0)
+    return y/z
+
+
+def test(test_loader,net):
+    net.to(device)
+    net.eval()
+    T_pred = None
+    T_lab = None
+    for inputs, labels in test_loader:
+        inputs, labels = inputs.to(device), labels.type(torch.LongTensor).to(device)
+        
+        output = net(inputs)
+
+        pred = torch.round(output.squeeze()) 
+        top_value, top_index = torch.max(pred,2,keepdim=True)
+        if T_pred == None:
+            T_pred = top_index.squeeze()
+            T_lab = labels.squeeze()
+        else:
+            T_pred = torch.cat((T_pred,top_index.squeeze()),0)
+            T_lab = torch.cat((T_lab,labels.squeeze()),0)
+
+    return T_pred,T_lab
+
+
+# In[17]:
+
+
 epochs     = 100
 d_model    = 300
-feed_fwd   = 150
+feed_fwd   = 128
 output_dim = 15
 n_head     = 4
-n_layers   = 2
-drop_prob  = 0.0006
-lr         = 0.001
+n_layers   = 1
+drop_prob  = 0.2
+lr         = 0.002
 
 
 # ### Multi-Head Attention
 
-# In[60]:
+# In[18]:
 
 
-model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
-optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-criterion = nn.CrossEntropyLoss()
-model
+model1 = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer1 = torch.optim.Adam(model1.parameters(), lr=lr)
+criterion1 = nn.CrossEntropyLoss(ignore_index=-100)
+model1
 
 
-# In[61]:
+# In[19]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "Multi_Att")
+train_losses,valid_losses,best_epoch = train(epochs,train_loader,model1,valid_loader,optimizer1,criterion1,att_name="Multi_Att")
 
 
-# In[63]:
+# In[20]:
 
 
 import matplotlib.pyplot as plt
 x     = [i for i in range(1,epochs+1)]
 xi    = [i for i in range(0,epochs+5,5)]
 xi[0] = 1
-f, axis = plt.subplots(2,1)
+f, axis = plt.subplots(1,1)
 f.set_figwidth(20)
-f.set_figheight(12)
+f.set_figheight(5)
 plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
 
-axis[0].plot(x,train_losses)
-axis[0].plot(x,valid_losses)
-axis[0].axvline(best_epoch, color='black')
-axis[0].set_xticks(xi)
-axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with Multi-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
-
-
-axis[1].plot(x,tr_acc)
-axis[1].plot(x,val_acc)
-axis[1].set_xticks(xi)
-axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with Multi-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].legend(["Training Accuracy","Valid Accuracy"]);
-
-
-# ### Single-Head Attention
-
-# In[20]:
-
-
-n_head = 1
-model  = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
-optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-criterion = nn.CrossEntropyLoss()
-model
+axis.plot(x,train_losses)
+axis.plot(x,valid_losses)
+axis.axvline(best_epoch, color='black')
+axis.set_xticks(xi)
+axis.set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_title("Losses (Multi-Head Attention | no PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis.legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"]);
 
 
 # In[21]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "Single_Att")
+model1 = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model1.load_state_dict(torch.load('Multi_Att.pt'))
 
 
 # In[22]:
 
 
-x     = [i for i in range(1,epochs+1)]
-xi    = [i for i in range(0,epochs+5,5)]
-xi[0] = 1
-f, axis = plt.subplots(2,1)
-f.set_figwidth(20)
-f.set_figheight(12)
-plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
-
-axis[0].plot(x,train_losses)
-axis[0].plot(x,valid_losses)
-axis[0].axvline(best_epoch, color='black')
-axis[0].set_xticks(xi)
-axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with 1-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
-
-
-axis[1].plot(x,tr_acc)
-axis[1].plot(x,val_acc)
-axis[1].set_xticks(xi)
-axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with 1-Head Attention | No PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].legend(["Training Accuracy","Valid Accuracy"]);
-
-
-# ## Testing (No PoE)
-
-# In[64]:
-
-
-def test(test_loader,net):
-    net.to(device)
-    net.eval()
-    num_correct = 0
-    valid_acc = 0
-    for inputs, labels in test_loader:
-        inputs, labels = inputs.to(device), labels.type(torch.LongTensor).to(device)
-        
-        output = net(inputs)[:,-1,:]
-
-        pred = torch.round(output.squeeze()) 
-        top_value, top_index = torch.max(pred,1)
-        correct_tensor = top_index.eq(labels.float().view_as(top_index))
-        correct = np.squeeze(correct_tensor.to('cpu').numpy())
-        num_correct += np.sum(correct)
-    
-    test_acc = num_correct/((len(test_loader)-1)*batch_size)
-    print("Test accuracy: {:.3f} %".format(test_acc*100))
-
-
-# ### Multi-Head Attention
-
-# In[65]:
-
-
-model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('Multi_Att.pt'))
-
-
-# In[66]:
-
-
-test(test_loader,model)
+pred,lab  = test(test_loader,model1)
+time_point_acc = calc(pred,lab)
 
 
 # ### Single-Head Attention
 
-# In[58]:
+# In[23]:
 
 
-model = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('Single_Att.pt'))
+epochs     = 100
+d_model    = 300
+feed_fwd   = 128
+output_dim = 15
+n_head     = 1
+n_layers   = 1
+drop_prob  = 0.2
+lr         = 0.001
 
 
-# In[59]:
+# In[24]:
 
 
-test(test_loader,model)
+model2  = Transformer_Model(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer2 = torch.optim.Adam(model2.parameters(), lr=lr)
+criterion2 = nn.CrossEntropyLoss(ignore_index=-100)
+model2
+
+
+# In[25]:
+
+
+train_losses2,valid_losses2,best_epoch2 = train(epochs,train_loader,model2,valid_loader,optimizer2,criterion2,att_name="Single_Att")
+
+
+# In[26]:
+
+
+x     = [i for i in range(1,epochs+1)]
+xi    = [i for i in range(0,epochs+5,5)]
+xi[0] = 1
+f, axis = plt.subplots(1,1)
+f.set_figwidth(20)
+f.set_figheight(5)
+plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
+
+axis.plot(x,train_losses2)
+axis.plot(x,valid_losses2)
+axis.axvline(best_epoch2, color='black')
+axis.set_xticks(xi)
+axis.set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_title("Losses (Single-Head Attention | no PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis.legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch2}"]);
+
+
+# In[27]:
+
+
+model2 = Transformer_Model(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model2.load_state_dict(torch.load('Single_Att.pt'))
+
+
+# In[28]:
+
+
+pred1,lab = test(test_loader,model2)
+time_point_acc1 = calc(pred1,lab)
+
+
+# ## Testing (No PoE)
+
+# ### Multi-Head Attention
+
+# In[29]:
+
+
+f, ax = plt.subplots(1,1)
+f.set_figwidth(19)
+f.set_figheight(5)
+ax.plot(time,time_point_acc)
+ax.set_xticks(time_changes-1, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("Accuracies (Multi-Head | no PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
+
+
+# ### Single-Head Attention
+
+# In[30]:
+
+
+time = [i for i in range(1,seq_length+1)]
+f, ax = plt.subplots(1,1)
+f.set_figwidth(19)
+f.set_figheight(5)
+ax.plot(time,time_point_acc1)
+ax.set_xticks(time_changes-1, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("Accuracies (Single-Head | no PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
 
 
 # ## Training (with PoE)
 
 # ### Multi-Head Attention
 
-# In[45]:
+# In[31]:
 
 
 epochs     = 100
 d_model    = 300
-feed_fwd   = 150
+feed_fwd   = 128
 output_dim = 15
 n_head     = 4
-n_layers   = 2
-drop_prob  = 0.0006
+n_layers   = 1
+drop_prob  = 0.2
 lr         = 0.001
 
 
-# In[46]:
+# In[32]:
 
 
-model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
-optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-criterion = nn.CrossEntropyLoss()
-model
+model3 = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer3 = torch.optim.Adam(model3.parameters(), lr=lr)
+criterion3 = nn.CrossEntropyLoss(ignore_index=-100)
+model3
 
 
-# In[47]:
+# In[33]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "PoE_Multi_Att")
+train_losses3,valid_losses3,best_epoch3 = train(epochs,train_loader,model3,valid_loader,optimizer3,criterion3,att_name="PoE_Multi_Att")
 
 
-# In[48]:
+# In[34]:
 
 
 x     = [i for i in range(1,epochs+1)]
 xi    = [i for i in range(0,epochs+5,5)]
 xi[0] = 1
-f, axis = plt.subplots(2,1)
+f, axis = plt.subplots(1,1)
 f.set_figwidth(20)
-f.set_figheight(12)
+f.set_figheight(5)
 plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
 
-axis[0].plot(x,train_losses)
-axis[0].plot(x,valid_losses)
-axis[0].axvline(best_epoch, color='black')
-axis[0].set_xticks(xi)
-axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with Multi-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
+axis.plot(x,train_losses3)
+axis.plot(x,valid_losses3)
+axis.axvline(best_epoch3, color='black')
+axis.set_xticks(xi)
+axis.set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_title("Losses (Multi-Head | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis.legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch3}"]);
 
 
-axis[1].plot(x,tr_acc)
-axis[1].plot(x,val_acc)
-axis[1].set_xticks(xi)
-axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with Multi-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].legend(["Training Accuracy","Valid Accuracy"]);
+# In[35]:
+
+
+model3 = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model3.load_state_dict(torch.load('PoE_Multi_Att.pt'))
+
+
+# In[36]:
+
+
+pred2,lab = test(test_loader,model3)
+time_point_acc2 = calc(pred2,lab)
 
 
 # ### Single-Head Attention
 
-# In[51]:
+# In[37]:
 
 
-n_head = 1
-model  = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
-optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-criterion = nn.CrossEntropyLoss()
-model
+epochs     = 100
+d_model    = 300
+feed_fwd   = 128
+output_dim = 15
+n_head     = 1
+n_layers   = 1
+drop_prob  = 0.2
+lr         = 0.001
 
 
-# In[52]:
+# In[38]:
 
 
-train_losses,valid_losses,tr_acc,val_acc,best_epoch = train(epochs,train_loader,model,valid_loader,optimizer,criterion,att_name = "PoE_Single_Att")
+model4  = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers,n_head, drop_prob)
+optimizer4 = torch.optim.Adam(model4.parameters(), lr=lr)
+criterion4 = nn.CrossEntropyLoss(ignore_index=-100)
+model4
 
 
-# In[53]:
+# In[39]:
+
+
+train_losses4,valid_losses4,best_epoch4 = train(epochs,train_loader,model4,valid_loader,optimizer4,criterion4,att_name="PoE_Single_Att")
+
+
+# In[40]:
 
 
 x     = [i for i in range(1,epochs+1)]
 xi    = [i for i in range(0,epochs+5,5)]
 xi[0] = 1
-f, axis = plt.subplots(2,1)
+f, axis = plt.subplots(1,1)
 f.set_figwidth(20)
-f.set_figheight(12)
+f.set_figheight(5)
 plt.subplots_adjust(top=0.8, wspace=0.2,hspace=0.3)
 
-axis[0].plot(x,train_losses)
-axis[0].plot(x,valid_losses)
-axis[0].axvline(best_epoch, color='black')
-axis[0].set_xticks(xi)
-axis[0].set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].set_title("Losses (with 1-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[0].legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch}"])
+axis.plot(x,train_losses4)
+axis.plot(x,valid_losses4)
+axis.axvline(best_epoch4, color='black')
+axis.set_xticks(xi)
+axis.set_xlabel("Epochs",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_ylabel("Loss",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+axis.set_title("Losses (Single-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
+axis.legend(["Training Loss","Valid Loss",f"Best Epoch= {best_epoch4}"]);
 
 
-axis[1].plot(x,tr_acc)
-axis[1].plot(x,val_acc)
-axis[1].set_xticks(xi)
-axis[1].set_xlabel("Epochs", fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_ylabel("Accuracy",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].set_title("Accuracies (with 1-Head Attention | PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center')
-axis[1].legend(["Training Accuracy","Valid Accuracy"]);
+# In[41]:
+
+
+model4 = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
+model4.load_state_dict(torch.load('PoE_Single_Att.pt'))
+
+
+# In[42]:
+
+
+pred3,lab = test(test_loader,model4)
+time_point_acc3 = calc(pred3,lab)
 
 
 # ## Testing (with PoE)
 
 # ### Multi-Head
 
-# In[49]:
+# In[43]:
 
 
-model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('PoE_Multi_Att.pt'))
-
-
-# In[50]:
-
-
-test(test_loader,model)
+f, ax = plt.subplots(1,1)
+f.set_figwidth(19)
+f.set_figheight(5)
+ax.plot(time,time_point_acc2)
+ax.set_xticks(time_changes-1, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("Accuracies (Multi-Head | with PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
 
 
 # ### Single-Head
 
-# In[54]:
+# In[44]:
 
 
-model = Transformer_Model_PoE(d_model, feed_fwd, output_dim, n_layers, n_head, drop_prob)
-model.load_state_dict(torch.load('PoE_Single_Att.pt'))
+f, ax = plt.subplots(1,1)
+f.set_figwidth(19)
+f.set_figheight(5)
+ax.plot(time,time_point_acc3)
+ax.set_xticks(time_changes-1, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("Accuracies (Single-Head | with PoE)",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
 
 
-# In[55]:
+# ## Comparison
+
+# In[45]:
 
 
-test(test_loader,model)
+f, ax = plt.subplots(1,1)
+f.set_figwidth(20)
+f.set_figheight(8)
+ax.plot(time,time_point_acc)
+ax.plot(time,time_point_acc2)
+ax.plot(time,time_point_acc1)
+ax.plot(time,time_point_acc3)
+ax.set_xticks(time_changes-1, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.legend(["Multi-Head","Multi-Head PoE","Single-Head","Single-Head PoE"])
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("Comparison",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
 
