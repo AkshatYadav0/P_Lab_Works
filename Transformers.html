@@ -382,8 +382,13 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#train-test-functions">
+   Train &amp; Test Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#training-no-poe">
-   Training (No PoE)
+   Training(No PoE)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -453,6 +458,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#comparison">
    Comparison
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transformer-models">
+     Transformer Models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#all-models">
+     All Models
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -526,8 +543,13 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#train-test-functions">
+   Train &amp; Test Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#training-no-poe">
-   Training (No PoE)
+   Training(No PoE)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -597,6 +619,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#comparison">
    Comparison
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transformer-models">
+     Transformer Models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#all-models">
+     All Models
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -780,6 +814,28 @@ starwars (176, 256, 300)
                         <span class="n">test_feature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                         <span class="n">test_target</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="n">rel</span><span class="p">[</span><span class="n">movie_name</span><span class="p">]]</span><span class="o">*</span><span class="mi">15</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_length</span><span class="p">)])</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
+176
 </pre></div>
 </div>
 </div>
@@ -1103,8 +1159,8 @@ starwars (176, 256, 300)
 </div>
 </section>
 </section>
-<section id="training-no-poe">
-<h2>Training (No PoE)<a class="headerlink" href="#training-no-poe" title="Permalink to this headline">#</a></h2>
+<section id="train-test-functions">
+<h2>Train &amp; Test Functions<a class="headerlink" href="#train-test-functions" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span><span class="n">train_loader</span><span class="p">,</span><span class="n">net</span><span class="p">,</span><span class="n">valid_loader</span><span class="p">,</span><span class="n">optimizer</span><span class="p">,</span><span class="n">criterion</span><span class="p">,</span><span class="n">att_name</span><span class="p">):</span>
@@ -1191,6 +1247,9 @@ starwars (176, 256, 300)
 </div>
 </div>
 </div>
+</section>
+<section id="training-no-poe">
+<h2>Training(No PoE)<a class="headerlink" href="#training-no-poe" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span>     <span class="o">=</span> <span class="mi">100</span>
@@ -1255,122 +1314,134 @@ starwars (176, 256, 300)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.558128).  Saving model ...
-Epoch: 1/100 	Training Loss: 2.620239 	Validation Loss: 2.558128
-Validation loss decreased (2.558128 --&gt; 2.485654).  Saving model ...
-Epoch: 2/100 	Training Loss: 2.527613 	Validation Loss: 2.485654
-Validation loss decreased (2.485654 --&gt; 2.406515).  Saving model ...
-Epoch: 3/100 	Training Loss: 2.462948 	Validation Loss: 2.406515
-Validation loss decreased (2.406515 --&gt; 2.230242).  Saving model ...
-Epoch: 4/100 	Training Loss: 2.319216 	Validation Loss: 2.230242
-Validation loss decreased (2.230242 --&gt; 2.122868).  Saving model ...
-Epoch: 5/100 	Training Loss: 2.144954 	Validation Loss: 2.122868
-Validation loss decreased (2.122868 --&gt; 2.027158).  Saving model ...
-Epoch: 6/100 	Training Loss: 1.993470 	Validation Loss: 2.027158
-Epoch: 7/100 	Training Loss: 1.964969 	Validation Loss: 2.030166
-Validation loss decreased (2.027158 --&gt; 1.986581).  Saving model ...
-Epoch: 8/100 	Training Loss: 1.962736 	Validation Loss: 1.986581
-Validation loss decreased (1.986581 --&gt; 1.985217).  Saving model ...
-Epoch: 9/100 	Training Loss: 1.913326 	Validation Loss: 1.985217
-Validation loss decreased (1.985217 --&gt; 1.979531).  Saving model ...
-Epoch: 10/100 	Training Loss: 1.886061 	Validation Loss: 1.979531
-Validation loss decreased (1.979531 --&gt; 1.955277).  Saving model ...
-Epoch: 11/100 	Training Loss: 1.868671 	Validation Loss: 1.955277
-Epoch: 12/100 	Training Loss: 1.864253 	Validation Loss: 1.957352
-Epoch: 13/100 	Training Loss: 1.856485 	Validation Loss: 1.977531
-Epoch: 14/100 	Training Loss: 1.853709 	Validation Loss: 1.963931
-Epoch: 15/100 	Training Loss: 1.853599 	Validation Loss: 1.962696
-Epoch: 16/100 	Training Loss: 1.856690 	Validation Loss: 1.959611
-Epoch: 17/100 	Training Loss: 1.851230 	Validation Loss: 1.964421
-Validation loss decreased (1.955277 --&gt; 1.947290).  Saving model ...
-Epoch: 18/100 	Training Loss: 1.847334 	Validation Loss: 1.947290
-Validation loss decreased (1.947290 --&gt; 1.939158).  Saving model ...
-Epoch: 19/100 	Training Loss: 1.842724 	Validation Loss: 1.939158
-Epoch: 20/100 	Training Loss: 1.873061 	Validation Loss: 2.008496
-Epoch: 21/100 	Training Loss: 1.914677 	Validation Loss: 2.041822
-Epoch: 22/100 	Training Loss: 1.886712 	Validation Loss: 1.970374
-Epoch: 23/100 	Training Loss: 1.862922 	Validation Loss: 1.975465
-Epoch: 24/100 	Training Loss: 1.856886 	Validation Loss: 1.982330
-Epoch: 25/100 	Training Loss: 1.842640 	Validation Loss: 1.952542
-Epoch: 26/100 	Training Loss: 1.840749 	Validation Loss: 1.945079
-Epoch: 27/100 	Training Loss: 1.840757 	Validation Loss: 1.945969
-Validation loss decreased (1.939158 --&gt; 1.937100).  Saving model ...
-Epoch: 28/100 	Training Loss: 1.839295 	Validation Loss: 1.937100
-Validation loss decreased (1.937100 --&gt; 1.936375).  Saving model ...
-Epoch: 29/100 	Training Loss: 1.838852 	Validation Loss: 1.936375
-Validation loss decreased (1.936375 --&gt; 1.935248).  Saving model ...
-Epoch: 30/100 	Training Loss: 1.839012 	Validation Loss: 1.935248
-Epoch: 31/100 	Training Loss: 1.838796 	Validation Loss: 1.935495
-Validation loss decreased (1.935248 --&gt; 1.934791).  Saving model ...
-Epoch: 32/100 	Training Loss: 1.839049 	Validation Loss: 1.934791
-Epoch: 33/100 	Training Loss: 1.839023 	Validation Loss: 1.936005
-Epoch: 34/100 	Training Loss: 1.838729 	Validation Loss: 1.936886
-Epoch: 35/100 	Training Loss: 1.838878 	Validation Loss: 1.936747
-Epoch: 36/100 	Training Loss: 1.839224 	Validation Loss: 1.938171
-Epoch: 37/100 	Training Loss: 1.838841 	Validation Loss: 1.937875
-Epoch: 38/100 	Training Loss: 1.838992 	Validation Loss: 1.935434
-Epoch: 39/100 	Training Loss: 1.838882 	Validation Loss: 1.937590
-Epoch: 40/100 	Training Loss: 1.838739 	Validation Loss: 1.938449
-Epoch: 41/100 	Training Loss: 1.838622 	Validation Loss: 1.937474
-Epoch: 42/100 	Training Loss: 1.838561 	Validation Loss: 1.940114
-Epoch: 43/100 	Training Loss: 1.838552 	Validation Loss: 1.938993
-Epoch: 44/100 	Training Loss: 1.838974 	Validation Loss: 1.939075
-Epoch: 45/100 	Training Loss: 1.838981 	Validation Loss: 1.937758
-Epoch: 46/100 	Training Loss: 1.838808 	Validation Loss: 1.936801
-Epoch: 47/100 	Training Loss: 1.838727 	Validation Loss: 1.938790
-Epoch: 48/100 	Training Loss: 1.839003 	Validation Loss: 1.940091
-Epoch: 49/100 	Training Loss: 1.838776 	Validation Loss: 1.939167
-Epoch: 50/100 	Training Loss: 1.838584 	Validation Loss: 1.938853
-Epoch: 51/100 	Training Loss: 1.838709 	Validation Loss: 1.938198
-Epoch: 52/100 	Training Loss: 1.838534 	Validation Loss: 1.941712
-Epoch: 53/100 	Training Loss: 1.838447 	Validation Loss: 1.939519
-Epoch: 54/100 	Training Loss: 1.838746 	Validation Loss: 1.940064
-Epoch: 55/100 	Training Loss: 1.838836 	Validation Loss: 1.940434
-Epoch: 56/100 	Training Loss: 1.838973 	Validation Loss: 1.943233
-Epoch: 57/100 	Training Loss: 1.838599 	Validation Loss: 1.944453
-Epoch: 58/100 	Training Loss: 1.838690 	Validation Loss: 1.941589
-Epoch: 59/100 	Training Loss: 1.838533 	Validation Loss: 1.942689
-Epoch: 60/100 	Training Loss: 1.838361 	Validation Loss: 1.941978
-Epoch: 61/100 	Training Loss: 1.838692 	Validation Loss: 1.942512
-Epoch: 62/100 	Training Loss: 1.838656 	Validation Loss: 1.939909
-Epoch: 63/100 	Training Loss: 1.851523 	Validation Loss: 2.057718
-Epoch: 64/100 	Training Loss: 2.195764 	Validation Loss: 2.319315
-Epoch: 65/100 	Training Loss: 2.160971 	Validation Loss: 2.176816
-Epoch: 66/100 	Training Loss: 1.990632 	Validation Loss: 2.095795
-Epoch: 67/100 	Training Loss: 1.930069 	Validation Loss: 2.051661
-Epoch: 68/100 	Training Loss: 1.936646 	Validation Loss: 2.073240
-Epoch: 69/100 	Training Loss: 1.941428 	Validation Loss: 2.062661
-Epoch: 70/100 	Training Loss: 1.893663 	Validation Loss: 2.021741
-Epoch: 71/100 	Training Loss: 1.866880 	Validation Loss: 2.045145
-Epoch: 72/100 	Training Loss: 1.869525 	Validation Loss: 2.035216
-Epoch: 73/100 	Training Loss: 1.857449 	Validation Loss: 2.028330
-Epoch: 74/100 	Training Loss: 1.849006 	Validation Loss: 2.017744
-Epoch: 75/100 	Training Loss: 1.837282 	Validation Loss: 2.008796
-Epoch: 76/100 	Training Loss: 1.834715 	Validation Loss: 2.030621
-Epoch: 77/100 	Training Loss: 1.859802 	Validation Loss: 2.020690
-Epoch: 78/100 	Training Loss: 1.840886 	Validation Loss: 2.016833
-Epoch: 79/100 	Training Loss: 1.863101 	Validation Loss: 2.053932
-Epoch: 80/100 	Training Loss: 1.869382 	Validation Loss: 2.040153
-Epoch: 81/100 	Training Loss: 1.838384 	Validation Loss: 2.008151
-Epoch: 82/100 	Training Loss: 1.828583 	Validation Loss: 2.007534
-Epoch: 83/100 	Training Loss: 1.823523 	Validation Loss: 2.010594
-Epoch: 84/100 	Training Loss: 1.821672 	Validation Loss: 2.006714
-Epoch: 85/100 	Training Loss: 1.822154 	Validation Loss: 2.006501
-Epoch: 86/100 	Training Loss: 1.826925 	Validation Loss: 2.009744
-Epoch: 87/100 	Training Loss: 1.823027 	Validation Loss: 2.014060
-Epoch: 88/100 	Training Loss: 1.826117 	Validation Loss: 2.049022
-Epoch: 89/100 	Training Loss: 1.831173 	Validation Loss: 2.027048
-Epoch: 90/100 	Training Loss: 1.840546 	Validation Loss: 2.019544
-Epoch: 91/100 	Training Loss: 1.858587 	Validation Loss: 2.051018
-Epoch: 92/100 	Training Loss: 1.842411 	Validation Loss: 2.046072
-Epoch: 93/100 	Training Loss: 1.833023 	Validation Loss: 2.051667
-Epoch: 94/100 	Training Loss: 1.828372 	Validation Loss: 2.032995
-Epoch: 95/100 	Training Loss: 1.829938 	Validation Loss: 2.017307
-Epoch: 96/100 	Training Loss: 1.825489 	Validation Loss: 2.028744
-Epoch: 97/100 	Training Loss: 1.822833 	Validation Loss: 2.025908
-Epoch: 98/100 	Training Loss: 1.824288 	Validation Loss: 2.024433
-Epoch: 99/100 	Training Loss: 1.829924 	Validation Loss: 2.031542
-Epoch: 100/100 	Training Loss: 1.853724 	Validation Loss: 2.096600
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.619768).  Saving model ...
+Epoch: 1/100 	Training Loss: 2.623784 	Validation Loss: 2.619768
+Validation loss decreased (2.619768 --&gt; 2.569143).  Saving model ...
+Epoch: 2/100 	Training Loss: 2.600055 	Validation Loss: 2.569143
+Validation loss decreased (2.569143 --&gt; 2.538885).  Saving model ...
+Epoch: 3/100 	Training Loss: 2.548736 	Validation Loss: 2.538885
+Validation loss decreased (2.538885 --&gt; 2.355351).  Saving model ...
+Epoch: 4/100 	Training Loss: 2.446210 	Validation Loss: 2.355351
+Validation loss decreased (2.355351 --&gt; 2.273003).  Saving model ...
+Epoch: 5/100 	Training Loss: 2.305111 	Validation Loss: 2.273003
+Validation loss decreased (2.273003 --&gt; 2.239819).  Saving model ...
+Epoch: 6/100 	Training Loss: 2.180624 	Validation Loss: 2.239819
+Validation loss decreased (2.239819 --&gt; 2.101558).  Saving model ...
+Epoch: 7/100 	Training Loss: 2.146643 	Validation Loss: 2.101558
+Validation loss decreased (2.101558 --&gt; 2.094265).  Saving model ...
+Epoch: 8/100 	Training Loss: 2.082969 	Validation Loss: 2.094265
+Validation loss decreased (2.094265 --&gt; 2.072646).  Saving model ...
+Epoch: 9/100 	Training Loss: 2.047858 	Validation Loss: 2.072646
+Epoch: 10/100 	Training Loss: 2.027517 	Validation Loss: 2.094476
+Epoch: 11/100 	Training Loss: 2.007206 	Validation Loss: 2.103813
+Validation loss decreased (2.072646 --&gt; 1.984976).  Saving model ...
+Epoch: 12/100 	Training Loss: 1.985511 	Validation Loss: 1.984976
+Validation loss decreased (1.984976 --&gt; 1.967378).  Saving model ...
+Epoch: 13/100 	Training Loss: 1.934780 	Validation Loss: 1.967378
+Epoch: 14/100 	Training Loss: 1.937397 	Validation Loss: 1.992343
+Epoch: 15/100 	Training Loss: 1.927049 	Validation Loss: 1.974576
+Epoch: 16/100 	Training Loss: 1.934498 	Validation Loss: 1.972624
+Epoch: 17/100 	Training Loss: 1.913507 	Validation Loss: 1.977364
+Validation loss decreased (1.967378 --&gt; 1.963657).  Saving model ...
+Epoch: 18/100 	Training Loss: 1.932960 	Validation Loss: 1.963657
+Validation loss decreased (1.963657 --&gt; 1.958007).  Saving model ...
+Epoch: 19/100 	Training Loss: 1.928791 	Validation Loss: 1.958007
+Epoch: 20/100 	Training Loss: 1.909466 	Validation Loss: 1.978726
+Validation loss decreased (1.958007 --&gt; 1.954913).  Saving model ...
+Epoch: 21/100 	Training Loss: 1.914369 	Validation Loss: 1.954913
+Epoch: 22/100 	Training Loss: 1.896148 	Validation Loss: 1.968324
+Epoch: 23/100 	Training Loss: 1.901288 	Validation Loss: 2.019031
+Epoch: 24/100 	Training Loss: 1.906717 	Validation Loss: 1.970315
+Epoch: 25/100 	Training Loss: 1.900652 	Validation Loss: 1.963108
+Epoch: 26/100 	Training Loss: 1.902213 	Validation Loss: 1.962771
+Epoch: 27/100 	Training Loss: 1.908178 	Validation Loss: 1.966000
+Epoch: 28/100 	Training Loss: 1.908514 	Validation Loss: 1.960274
+Epoch: 29/100 	Training Loss: 1.898494 	Validation Loss: 1.968263
+Validation loss decreased (1.954913 --&gt; 1.941694).  Saving model ...
+Epoch: 30/100 	Training Loss: 1.896437 	Validation Loss: 1.941694
+Validation loss decreased (1.941694 --&gt; 1.938587).  Saving model ...
+Epoch: 31/100 	Training Loss: 1.889545 	Validation Loss: 1.938587
+Epoch: 32/100 	Training Loss: 1.897806 	Validation Loss: 1.954518
+Epoch: 33/100 	Training Loss: 1.911149 	Validation Loss: 1.974607
+Epoch: 34/100 	Training Loss: 1.900467 	Validation Loss: 1.967685
+Epoch: 35/100 	Training Loss: 1.897646 	Validation Loss: 1.998838
+Epoch: 36/100 	Training Loss: 1.893365 	Validation Loss: 1.940264
+Epoch: 37/100 	Training Loss: 1.890359 	Validation Loss: 1.944568
+Epoch: 38/100 	Training Loss: 1.888362 	Validation Loss: 1.945826
+Validation loss decreased (1.938587 --&gt; 1.932355).  Saving model ...
+Epoch: 39/100 	Training Loss: 1.886764 	Validation Loss: 1.932355
+Epoch: 40/100 	Training Loss: 1.887878 	Validation Loss: 1.937865
+Epoch: 41/100 	Training Loss: 1.885986 	Validation Loss: 1.941087
+Epoch: 42/100 	Training Loss: 1.886019 	Validation Loss: 1.932499
+Validation loss decreased (1.932355 --&gt; 1.929639).  Saving model ...
+Epoch: 43/100 	Training Loss: 1.885370 	Validation Loss: 1.929639
+Epoch: 44/100 	Training Loss: 1.884667 	Validation Loss: 1.929690
+Epoch: 45/100 	Training Loss: 1.884780 	Validation Loss: 1.942828
+Epoch: 46/100 	Training Loss: 1.886650 	Validation Loss: 1.934613
+Epoch: 47/100 	Training Loss: 1.868460 	Validation Loss: 2.014376
+Epoch: 48/100 	Training Loss: 1.963901 	Validation Loss: 2.007118
+Epoch: 49/100 	Training Loss: 1.923329 	Validation Loss: 1.977817
+Epoch: 50/100 	Training Loss: 1.902635 	Validation Loss: 1.992956
+Epoch: 51/100 	Training Loss: 1.879863 	Validation Loss: 1.950709
+Epoch: 52/100 	Training Loss: 1.861962 	Validation Loss: 1.930044
+Epoch: 53/100 	Training Loss: 1.866157 	Validation Loss: 1.948704
+Epoch: 54/100 	Training Loss: 1.849122 	Validation Loss: 1.931177
+Validation loss decreased (1.929639 --&gt; 1.920049).  Saving model ...
+Epoch: 55/100 	Training Loss: 1.845117 	Validation Loss: 1.920049
+Validation loss decreased (1.920049 --&gt; 1.916337).  Saving model ...
+Epoch: 56/100 	Training Loss: 1.846372 	Validation Loss: 1.916337
+Epoch: 57/100 	Training Loss: 1.858785 	Validation Loss: 1.947854
+Epoch: 58/100 	Training Loss: 1.866756 	Validation Loss: 1.952195
+Epoch: 59/100 	Training Loss: 1.859623 	Validation Loss: 1.925148
+Validation loss decreased (1.916337 --&gt; 1.915372).  Saving model ...
+Epoch: 60/100 	Training Loss: 1.848394 	Validation Loss: 1.915372
+Validation loss decreased (1.915372 --&gt; 1.913159).  Saving model ...
+Epoch: 61/100 	Training Loss: 1.844130 	Validation Loss: 1.913159
+Epoch: 62/100 	Training Loss: 1.845452 	Validation Loss: 1.922392
+Epoch: 63/100 	Training Loss: 1.843460 	Validation Loss: 1.923259
+Epoch: 64/100 	Training Loss: 1.841022 	Validation Loss: 1.924202
+Epoch: 65/100 	Training Loss: 1.843217 	Validation Loss: 1.922689
+Validation loss decreased (1.913159 --&gt; 1.907324).  Saving model ...
+Epoch: 66/100 	Training Loss: 1.840779 	Validation Loss: 1.907324
+Epoch: 67/100 	Training Loss: 1.838227 	Validation Loss: 1.913527
+Epoch: 68/100 	Training Loss: 1.837946 	Validation Loss: 1.911436
+Validation loss decreased (1.907324 --&gt; 1.900671).  Saving model ...
+Epoch: 69/100 	Training Loss: 1.837948 	Validation Loss: 1.900671
+Epoch: 70/100 	Training Loss: 1.837282 	Validation Loss: 1.902957
+Epoch: 71/100 	Training Loss: 1.837260 	Validation Loss: 1.900846
+Epoch: 72/100 	Training Loss: 1.837584 	Validation Loss: 1.900712
+Validation loss decreased (1.900671 --&gt; 1.897632).  Saving model ...
+Epoch: 73/100 	Training Loss: 1.837393 	Validation Loss: 1.897632
+Epoch: 74/100 	Training Loss: 1.837204 	Validation Loss: 1.899191
+Epoch: 75/100 	Training Loss: 1.837049 	Validation Loss: 1.901540
+Epoch: 76/100 	Training Loss: 1.837291 	Validation Loss: 1.900980
+Epoch: 77/100 	Training Loss: 1.837227 	Validation Loss: 1.900021
+Epoch: 78/100 	Training Loss: 1.837205 	Validation Loss: 1.901412
+Epoch: 79/100 	Training Loss: 1.837100 	Validation Loss: 1.899013
+Epoch: 80/100 	Training Loss: 1.837423 	Validation Loss: 1.900681
+Validation loss decreased (1.897632 --&gt; 1.897171).  Saving model ...
+Epoch: 81/100 	Training Loss: 1.837275 	Validation Loss: 1.897171
+Epoch: 82/100 	Training Loss: 1.837697 	Validation Loss: 1.898786
+Epoch: 83/100 	Training Loss: 1.837392 	Validation Loss: 1.903877
+Epoch: 84/100 	Training Loss: 1.837546 	Validation Loss: 1.898117
+Validation loss decreased (1.897171 --&gt; 1.897166).  Saving model ...
+Epoch: 85/100 	Training Loss: 1.837298 	Validation Loss: 1.897166
+Epoch: 86/100 	Training Loss: 1.837066 	Validation Loss: 1.897548
+Epoch: 87/100 	Training Loss: 1.837112 	Validation Loss: 1.897876
+Validation loss decreased (1.897166 --&gt; 1.895332).  Saving model ...
+Epoch: 88/100 	Training Loss: 1.837489 	Validation Loss: 1.895332
+Epoch: 89/100 	Training Loss: 1.836874 	Validation Loss: 1.897954
+Epoch: 90/100 	Training Loss: 1.837842 	Validation Loss: 1.898336
+Epoch: 91/100 	Training Loss: 1.837205 	Validation Loss: 1.898140
+Epoch: 92/100 	Training Loss: 1.837102 	Validation Loss: 1.897153
+Epoch: 93/100 	Training Loss: 1.837197 	Validation Loss: 1.898217
+Epoch: 94/100 	Training Loss: 1.837234 	Validation Loss: 1.900270
+Epoch: 95/100 	Training Loss: 1.837196 	Validation Loss: 1.896485
+Epoch: 96/100 	Training Loss: 1.837272 	Validation Loss: 1.898211
+Epoch: 97/100 	Training Loss: 1.837197 	Validation Loss: 1.900421
+Epoch: 98/100 	Training Loss: 1.837357 	Validation Loss: 1.899739
+Epoch: 99/100 	Training Loss: 1.837098 	Validation Loss: 1.898624
+Epoch: 100/100 	Training Loss: 1.837069 	Validation Loss: 1.898738
 </pre></div>
 </div>
 </div>
@@ -1398,7 +1469,7 @@ Epoch: 100/100 	Training Loss: 1.853724 	Validation Loss: 2.096600
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_33_0.png" src="_images/Transformers_33_0.png" />
+<img alt="_images/Transformers_34_0.png" src="_images/Transformers_34_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1487,126 +1558,125 @@ Epoch: 100/100 	Training Loss: 1.853724 	Validation Loss: 2.096600
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.585229).  Saving model ...
-Epoch: 1/100 	Training Loss: 2.648450 	Validation Loss: 2.585229
-Epoch: 2/100 	Training Loss: 2.596459 	Validation Loss: 2.585414
-Validation loss decreased (2.585229 --&gt; 2.535964).  Saving model ...
-Epoch: 3/100 	Training Loss: 2.562524 	Validation Loss: 2.535964
-Validation loss decreased (2.535964 --&gt; 2.447980).  Saving model ...
-Epoch: 4/100 	Training Loss: 2.496027 	Validation Loss: 2.447980
-Validation loss decreased (2.447980 --&gt; 2.296068).  Saving model ...
-Epoch: 5/100 	Training Loss: 2.386010 	Validation Loss: 2.296068
-Validation loss decreased (2.296068 --&gt; 2.154861).  Saving model ...
-Epoch: 6/100 	Training Loss: 2.194808 	Validation Loss: 2.154861
-Validation loss decreased (2.154861 --&gt; 2.082356).  Saving model ...
-Epoch: 7/100 	Training Loss: 2.112253 	Validation Loss: 2.082356
-Validation loss decreased (2.082356 --&gt; 2.027794).  Saving model ...
-Epoch: 8/100 	Training Loss: 2.035137 	Validation Loss: 2.027794
-Epoch: 9/100 	Training Loss: 2.000374 	Validation Loss: 2.074464
-Validation loss decreased (2.027794 --&gt; 1.996643).  Saving model ...
-Epoch: 10/100 	Training Loss: 1.966721 	Validation Loss: 1.996643
-Epoch: 11/100 	Training Loss: 1.955219 	Validation Loss: 2.028345
-Epoch: 12/100 	Training Loss: 1.972660 	Validation Loss: 2.031719
-Epoch: 13/100 	Training Loss: 1.955390 	Validation Loss: 2.030760
-Epoch: 14/100 	Training Loss: 1.932617 	Validation Loss: 2.007746
-Epoch: 15/100 	Training Loss: 1.922651 	Validation Loss: 2.009850
-Epoch: 16/100 	Training Loss: 1.932333 	Validation Loss: 2.007547
-Validation loss decreased (1.996643 --&gt; 1.989306).  Saving model ...
-Epoch: 17/100 	Training Loss: 1.912011 	Validation Loss: 1.989306
-Validation loss decreased (1.989306 --&gt; 1.985684).  Saving model ...
-Epoch: 18/100 	Training Loss: 1.907017 	Validation Loss: 1.985684
-Epoch: 19/100 	Training Loss: 1.910532 	Validation Loss: 1.996427
-Epoch: 20/100 	Training Loss: 1.930609 	Validation Loss: 1.998579
-Epoch: 21/100 	Training Loss: 1.910024 	Validation Loss: 2.001227
-Epoch: 22/100 	Training Loss: 1.901018 	Validation Loss: 2.023634
-Epoch: 23/100 	Training Loss: 1.901944 	Validation Loss: 1.986612
-Epoch: 24/100 	Training Loss: 1.894917 	Validation Loss: 2.000077
-Validation loss decreased (1.985684 --&gt; 1.983950).  Saving model ...
-Epoch: 25/100 	Training Loss: 1.894051 	Validation Loss: 1.983950
-Epoch: 26/100 	Training Loss: 1.909342 	Validation Loss: 1.994647
-Epoch: 27/100 	Training Loss: 1.899398 	Validation Loss: 1.990354
-Epoch: 28/100 	Training Loss: 1.891571 	Validation Loss: 1.986428
-Epoch: 29/100 	Training Loss: 1.888305 	Validation Loss: 1.989345
-Epoch: 30/100 	Training Loss: 1.888895 	Validation Loss: 1.992817
-Epoch: 31/100 	Training Loss: 1.890119 	Validation Loss: 1.984894
-Epoch: 32/100 	Training Loss: 1.894099 	Validation Loss: 1.996182
-Validation loss decreased (1.983950 --&gt; 1.983551).  Saving model ...
-Epoch: 33/100 	Training Loss: 1.894428 	Validation Loss: 1.983551
-Epoch: 34/100 	Training Loss: 1.895650 	Validation Loss: 2.010555
-Epoch: 35/100 	Training Loss: 1.918738 	Validation Loss: 1.999970
-Epoch: 36/100 	Training Loss: 1.926951 	Validation Loss: 1.996160
-Epoch: 37/100 	Training Loss: 1.908409 	Validation Loss: 2.085014
-Epoch: 38/100 	Training Loss: 1.918516 	Validation Loss: 1.991639
-Epoch: 39/100 	Training Loss: 1.891632 	Validation Loss: 1.991933
-Validation loss decreased (1.983551 --&gt; 1.978495).  Saving model ...
-Epoch: 40/100 	Training Loss: 1.891667 	Validation Loss: 1.978495
-Epoch: 41/100 	Training Loss: 1.898402 	Validation Loss: 2.021123
-Epoch: 42/100 	Training Loss: 1.913814 	Validation Loss: 2.017723
-Epoch: 43/100 	Training Loss: 1.893705 	Validation Loss: 1.987882
-Epoch: 44/100 	Training Loss: 1.911863 	Validation Loss: 1.982104
-Epoch: 45/100 	Training Loss: 1.897792 	Validation Loss: 1.998158
-Epoch: 46/100 	Training Loss: 1.892973 	Validation Loss: 1.993907
-Epoch: 47/100 	Training Loss: 1.885770 	Validation Loss: 1.983174
-Epoch: 48/100 	Training Loss: 1.890178 	Validation Loss: 1.984496
-Epoch: 49/100 	Training Loss: 1.884436 	Validation Loss: 1.982422
-Epoch: 50/100 	Training Loss: 1.882882 	Validation Loss: 1.981169
-Epoch: 51/100 	Training Loss: 1.883625 	Validation Loss: 1.982607
-Epoch: 52/100 	Training Loss: 1.882989 	Validation Loss: 1.981915
-Epoch: 53/100 	Training Loss: 1.882428 	Validation Loss: 1.985453
-Epoch: 54/100 	Training Loss: 1.882617 	Validation Loss: 1.979736
-Epoch: 55/100 	Training Loss: 1.881873 	Validation Loss: 1.983670
-Epoch: 56/100 	Training Loss: 1.882274 	Validation Loss: 1.982642
-Epoch: 57/100 	Training Loss: 1.886503 	Validation Loss: 2.050159
-Epoch: 58/100 	Training Loss: 1.889359 	Validation Loss: 1.986322
-Epoch: 59/100 	Training Loss: 1.882992 	Validation Loss: 1.981808
-Epoch: 60/100 	Training Loss: 1.882301 	Validation Loss: 1.988789
-Epoch: 61/100 	Training Loss: 1.881412 	Validation Loss: 1.981845
-Epoch: 62/100 	Training Loss: 1.881732 	Validation Loss: 1.985015
-Epoch: 63/100 	Training Loss: 1.881317 	Validation Loss: 1.985504
-Epoch: 64/100 	Training Loss: 1.881832 	Validation Loss: 1.983355
-Epoch: 65/100 	Training Loss: 1.882860 	Validation Loss: 1.982353
-Epoch: 66/100 	Training Loss: 1.881968 	Validation Loss: 1.983745
-Epoch: 67/100 	Training Loss: 1.881735 	Validation Loss: 1.985528
-Epoch: 68/100 	Training Loss: 1.882446 	Validation Loss: 1.982466
-Epoch: 69/100 	Training Loss: 1.882078 	Validation Loss: 1.984662
-Epoch: 70/100 	Training Loss: 1.881318 	Validation Loss: 1.982478
-Epoch: 71/100 	Training Loss: 1.881507 	Validation Loss: 1.982294
-Epoch: 72/100 	Training Loss: 1.882201 	Validation Loss: 1.986694
-Epoch: 73/100 	Training Loss: 1.881922 	Validation Loss: 1.980080
-Epoch: 74/100 	Training Loss: 1.881613 	Validation Loss: 1.981807
-Epoch: 75/100 	Training Loss: 1.881780 	Validation Loss: 1.983411
-Validation loss decreased (1.978495 --&gt; 1.977985).  Saving model ...
-Epoch: 76/100 	Training Loss: 1.880786 	Validation Loss: 1.977985
-Epoch: 77/100 	Training Loss: 1.935802 	Validation Loss: 2.137185
-Epoch: 78/100 	Training Loss: 2.038296 	Validation Loss: 2.039253
-Epoch: 79/100 	Training Loss: 1.940928 	Validation Loss: 2.034492
-Epoch: 80/100 	Training Loss: 1.945082 	Validation Loss: 2.019560
-Epoch: 81/100 	Training Loss: 1.934571 	Validation Loss: 2.038037
-Epoch: 82/100 	Training Loss: 1.919078 	Validation Loss: 2.003232
-Epoch: 83/100 	Training Loss: 1.923617 	Validation Loss: 2.005843
-Epoch: 84/100 	Training Loss: 1.890258 	Validation Loss: 1.996133
-Validation loss decreased (1.977985 --&gt; 1.971699).  Saving model ...
-Epoch: 85/100 	Training Loss: 1.878845 	Validation Loss: 1.971699
-Epoch: 86/100 	Training Loss: 1.868587 	Validation Loss: 2.029623
-Validation loss decreased (1.971699 --&gt; 1.949780).  Saving model ...
-Epoch: 87/100 	Training Loss: 1.875334 	Validation Loss: 1.949780
-Epoch: 88/100 	Training Loss: 1.866428 	Validation Loss: 1.978346
-Epoch: 89/100 	Training Loss: 1.889107 	Validation Loss: 1.985537
-Epoch: 90/100 	Training Loss: 1.872126 	Validation Loss: 1.993481
-Epoch: 91/100 	Training Loss: 1.871369 	Validation Loss: 1.997066
-Epoch: 92/100 	Training Loss: 1.867494 	Validation Loss: 1.988546
-Epoch: 93/100 	Training Loss: 1.850625 	Validation Loss: 1.971448
-Validation loss decreased (1.949780 --&gt; 1.946928).  Saving model ...
-Epoch: 94/100 	Training Loss: 1.848474 	Validation Loss: 1.946928
-Epoch: 95/100 	Training Loss: 1.851115 	Validation Loss: 1.953365
-Validation loss decreased (1.946928 --&gt; 1.944478).  Saving model ...
-Epoch: 96/100 	Training Loss: 1.841970 	Validation Loss: 1.944478
-Validation loss decreased (1.944478 --&gt; 1.939058).  Saving model ...
-Epoch: 97/100 	Training Loss: 1.844047 	Validation Loss: 1.939058
-Epoch: 98/100 	Training Loss: 1.848608 	Validation Loss: 1.951742
-Epoch: 99/100 	Training Loss: 1.850600 	Validation Loss: 1.956560
-Validation loss decreased (1.939058 --&gt; 1.936667).  Saving model ...
-Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 2.588746).  Saving model ...
+Epoch: 1/100 	Training Loss: 2.631753 	Validation Loss: 2.588746
+Validation loss decreased (2.588746 --&gt; 2.575422).  Saving model ...
+Epoch: 2/100 	Training Loss: 2.584103 	Validation Loss: 2.575422
+Validation loss decreased (2.575422 --&gt; 2.476811).  Saving model ...
+Epoch: 3/100 	Training Loss: 2.535889 	Validation Loss: 2.476811
+Validation loss decreased (2.476811 --&gt; 2.391491).  Saving model ...
+Epoch: 4/100 	Training Loss: 2.450850 	Validation Loss: 2.391491
+Validation loss decreased (2.391491 --&gt; 2.235666).  Saving model ...
+Epoch: 5/100 	Training Loss: 2.284369 	Validation Loss: 2.235666
+Validation loss decreased (2.235666 --&gt; 2.088505).  Saving model ...
+Epoch: 6/100 	Training Loss: 2.133317 	Validation Loss: 2.088505
+Validation loss decreased (2.088505 --&gt; 2.047759).  Saving model ...
+Epoch: 7/100 	Training Loss: 2.064413 	Validation Loss: 2.047759
+Validation loss decreased (2.047759 --&gt; 2.013366).  Saving model ...
+Epoch: 8/100 	Training Loss: 2.022776 	Validation Loss: 2.013366
+Epoch: 9/100 	Training Loss: 2.007476 	Validation Loss: 2.031015
+Validation loss decreased (2.013366 --&gt; 1.973065).  Saving model ...
+Epoch: 10/100 	Training Loss: 1.982174 	Validation Loss: 1.973065
+Epoch: 11/100 	Training Loss: 1.963339 	Validation Loss: 1.996773
+Epoch: 12/100 	Training Loss: 1.961295 	Validation Loss: 2.003897
+Epoch: 13/100 	Training Loss: 1.962172 	Validation Loss: 2.003446
+Validation loss decreased (1.973065 --&gt; 1.956666).  Saving model ...
+Epoch: 14/100 	Training Loss: 1.940301 	Validation Loss: 1.956666
+Validation loss decreased (1.956666 --&gt; 1.953975).  Saving model ...
+Epoch: 15/100 	Training Loss: 1.933813 	Validation Loss: 1.953975
+Epoch: 16/100 	Training Loss: 1.943620 	Validation Loss: 1.988028
+Epoch: 17/100 	Training Loss: 1.927783 	Validation Loss: 1.955277
+Epoch: 18/100 	Training Loss: 1.911754 	Validation Loss: 1.956870
+Epoch: 19/100 	Training Loss: 1.913658 	Validation Loss: 1.982615
+Epoch: 20/100 	Training Loss: 1.915969 	Validation Loss: 1.957339
+Epoch: 21/100 	Training Loss: 1.915602 	Validation Loss: 1.957470
+Epoch: 22/100 	Training Loss: 1.918886 	Validation Loss: 1.961436
+Epoch: 23/100 	Training Loss: 1.910882 	Validation Loss: 1.961026
+Epoch: 24/100 	Training Loss: 1.919439 	Validation Loss: 1.960946
+Validation loss decreased (1.953975 --&gt; 1.952770).  Saving model ...
+Epoch: 25/100 	Training Loss: 1.904364 	Validation Loss: 1.952770
+Epoch: 26/100 	Training Loss: 1.901118 	Validation Loss: 1.957729
+Epoch: 27/100 	Training Loss: 1.910381 	Validation Loss: 1.969225
+Epoch: 28/100 	Training Loss: 1.900538 	Validation Loss: 1.953914
+Epoch: 29/100 	Training Loss: 1.898547 	Validation Loss: 1.987342
+Epoch: 30/100 	Training Loss: 1.910415 	Validation Loss: 1.971586
+Epoch: 31/100 	Training Loss: 1.911318 	Validation Loss: 2.025950
+Epoch: 32/100 	Training Loss: 1.926048 	Validation Loss: 1.959878
+Epoch: 33/100 	Training Loss: 1.901398 	Validation Loss: 1.961922
+Epoch: 34/100 	Training Loss: 1.892413 	Validation Loss: 1.956412
+Epoch: 35/100 	Training Loss: 1.892497 	Validation Loss: 1.956172
+Validation loss decreased (1.952770 --&gt; 1.951554).  Saving model ...
+Epoch: 36/100 	Training Loss: 1.890351 	Validation Loss: 1.951554
+Epoch: 37/100 	Training Loss: 1.889945 	Validation Loss: 1.952253
+Epoch: 38/100 	Training Loss: 1.886848 	Validation Loss: 1.953028
+Validation loss decreased (1.951554 --&gt; 1.944325).  Saving model ...
+Epoch: 39/100 	Training Loss: 1.887327 	Validation Loss: 1.944325
+Epoch: 40/100 	Training Loss: 1.886619 	Validation Loss: 1.945855
+Epoch: 41/100 	Training Loss: 1.886660 	Validation Loss: 1.946172
+Epoch: 42/100 	Training Loss: 1.885841 	Validation Loss: 1.944619
+Epoch: 43/100 	Training Loss: 1.886248 	Validation Loss: 1.945773
+Epoch: 44/100 	Training Loss: 1.887151 	Validation Loss: 1.946096
+Epoch: 45/100 	Training Loss: 1.885926 	Validation Loss: 1.946154
+Epoch: 46/100 	Training Loss: 1.886612 	Validation Loss: 1.948297
+Epoch: 47/100 	Training Loss: 1.886112 	Validation Loss: 1.947104
+Epoch: 48/100 	Training Loss: 1.886533 	Validation Loss: 1.947114
+Epoch: 49/100 	Training Loss: 1.885436 	Validation Loss: 1.944518
+Validation loss decreased (1.944325 --&gt; 1.943094).  Saving model ...
+Epoch: 50/100 	Training Loss: 1.886813 	Validation Loss: 1.943094
+Epoch: 51/100 	Training Loss: 1.884330 	Validation Loss: 1.969829
+Epoch: 52/100 	Training Loss: 1.930388 	Validation Loss: 2.051603
+Epoch: 53/100 	Training Loss: 1.954572 	Validation Loss: 1.949052
+Epoch: 54/100 	Training Loss: 1.909699 	Validation Loss: 1.974478
+Epoch: 55/100 	Training Loss: 1.893059 	Validation Loss: 1.997575
+Epoch: 56/100 	Training Loss: 1.903551 	Validation Loss: 2.030336
+Epoch: 57/100 	Training Loss: 1.940380 	Validation Loss: 2.060849
+Epoch: 58/100 	Training Loss: 1.893435 	Validation Loss: 1.970317
+Epoch: 59/100 	Training Loss: 1.875793 	Validation Loss: 2.027008
+Validation loss decreased (1.943094 --&gt; 1.935106).  Saving model ...
+Epoch: 60/100 	Training Loss: 1.862640 	Validation Loss: 1.935106
+Epoch: 61/100 	Training Loss: 1.849507 	Validation Loss: 1.940254
+Epoch: 62/100 	Training Loss: 1.853809 	Validation Loss: 1.974049
+Epoch: 63/100 	Training Loss: 1.857914 	Validation Loss: 1.940375
+Epoch: 64/100 	Training Loss: 1.876719 	Validation Loss: 2.007310
+Validation loss decreased (1.935106 --&gt; 1.928247).  Saving model ...
+Epoch: 65/100 	Training Loss: 1.889311 	Validation Loss: 1.928247
+Epoch: 66/100 	Training Loss: 1.862023 	Validation Loss: 2.031848
+Epoch: 67/100 	Training Loss: 1.877232 	Validation Loss: 1.960774
+Epoch: 68/100 	Training Loss: 1.860148 	Validation Loss: 1.969408
+Epoch: 69/100 	Training Loss: 1.856394 	Validation Loss: 1.959640
+Epoch: 70/100 	Training Loss: 1.848403 	Validation Loss: 1.953756
+Epoch: 71/100 	Training Loss: 1.854440 	Validation Loss: 2.008145
+Epoch: 72/100 	Training Loss: 1.871031 	Validation Loss: 1.946975
+Epoch: 73/100 	Training Loss: 1.872560 	Validation Loss: 1.987156
+Epoch: 74/100 	Training Loss: 1.866164 	Validation Loss: 1.940880
+Epoch: 75/100 	Training Loss: 1.847153 	Validation Loss: 1.944854
+Validation loss decreased (1.928247 --&gt; 1.920004).  Saving model ...
+Epoch: 76/100 	Training Loss: 1.844338 	Validation Loss: 1.920004
+Validation loss decreased (1.920004 --&gt; 1.919938).  Saving model ...
+Epoch: 77/100 	Training Loss: 1.843833 	Validation Loss: 1.919938
+Epoch: 78/100 	Training Loss: 1.846733 	Validation Loss: 1.938904
+Epoch: 79/100 	Training Loss: 1.847712 	Validation Loss: 1.937053
+Epoch: 80/100 	Training Loss: 1.845381 	Validation Loss: 1.937520
+Epoch: 81/100 	Training Loss: 1.849339 	Validation Loss: 1.940618
+Epoch: 82/100 	Training Loss: 1.853646 	Validation Loss: 1.950095
+Epoch: 83/100 	Training Loss: 1.856404 	Validation Loss: 1.944974
+Epoch: 84/100 	Training Loss: 1.851292 	Validation Loss: 1.955995
+Epoch: 85/100 	Training Loss: 1.869991 	Validation Loss: 2.023464
+Epoch: 86/100 	Training Loss: 1.885585 	Validation Loss: 1.974350
+Epoch: 87/100 	Training Loss: 1.848167 	Validation Loss: 1.970771
+Epoch: 88/100 	Training Loss: 1.859392 	Validation Loss: 1.965176
+Epoch: 89/100 	Training Loss: 1.860696 	Validation Loss: 1.985446
+Epoch: 90/100 	Training Loss: 1.850916 	Validation Loss: 1.954929
+Epoch: 91/100 	Training Loss: 1.852192 	Validation Loss: 1.957348
+Epoch: 92/100 	Training Loss: 1.853192 	Validation Loss: 1.938702
+Epoch: 93/100 	Training Loss: 1.858706 	Validation Loss: 1.988759
+Epoch: 94/100 	Training Loss: 1.852854 	Validation Loss: 1.956602
+Epoch: 95/100 	Training Loss: 1.844454 	Validation Loss: 1.941489
+Epoch: 96/100 	Training Loss: 1.841526 	Validation Loss: 1.939001
+Epoch: 97/100 	Training Loss: 1.838918 	Validation Loss: 1.944955
+Epoch: 98/100 	Training Loss: 1.858801 	Validation Loss: 2.009654
+Epoch: 99/100 	Training Loss: 1.861205 	Validation Loss: 1.978163
+Epoch: 100/100 	Training Loss: 1.848128 	Validation Loss: 1.953479
 </pre></div>
 </div>
 </div>
@@ -1633,7 +1703,7 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_40_0.png" src="_images/Transformers_40_0.png" />
+<img alt="_images/Transformers_41_0.png" src="_images/Transformers_41_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1669,7 +1739,7 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 <span class="n">f</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
@@ -1680,7 +1750,7 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_45_0.png" src="_images/Transformers_45_0.png" />
+<img alt="_images/Transformers_46_0.png" src="_images/Transformers_46_0.png" />
 </div>
 </div>
 </section>
@@ -1693,7 +1763,7 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 <span class="n">f</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
@@ -1704,7 +1774,7 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_47_0.png" src="_images/Transformers_47_0.png" />
+<img alt="_images/Transformers_48_0.png" src="_images/Transformers_48_0.png" />
 </div>
 </div>
 </section>
@@ -1775,114 +1845,116 @@ Epoch: 100/100 	Training Loss: 1.847616 	Validation Loss: 1.936667
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 1.466577).  Saving model ...
-Epoch: 1/100 	Training Loss: 2.020179 	Validation Loss: 1.466577
-Validation loss decreased (1.466577 --&gt; 0.788715).  Saving model ...
-Epoch: 2/100 	Training Loss: 1.225005 	Validation Loss: 0.788715
-Validation loss decreased (0.788715 --&gt; 0.615095).  Saving model ...
-Epoch: 3/100 	Training Loss: 0.711279 	Validation Loss: 0.615095
-Validation loss decreased (0.615095 --&gt; 0.287511).  Saving model ...
-Epoch: 4/100 	Training Loss: 0.382490 	Validation Loss: 0.287511
-Validation loss decreased (0.287511 --&gt; 0.188107).  Saving model ...
-Epoch: 5/100 	Training Loss: 0.176139 	Validation Loss: 0.188107
-Epoch: 6/100 	Training Loss: 0.100320 	Validation Loss: 0.241735
-Epoch: 7/100 	Training Loss: 0.094769 	Validation Loss: 0.208236
-Epoch: 8/100 	Training Loss: 0.048667 	Validation Loss: 0.206405
-Validation loss decreased (0.188107 --&gt; 0.140268).  Saving model ...
-Epoch: 9/100 	Training Loss: 0.020167 	Validation Loss: 0.140268
-Epoch: 10/100 	Training Loss: 0.021013 	Validation Loss: 0.164269
-Validation loss decreased (0.140268 --&gt; 0.138943).  Saving model ...
-Epoch: 11/100 	Training Loss: 0.021234 	Validation Loss: 0.138943
-Validation loss decreased (0.138943 --&gt; 0.115112).  Saving model ...
-Epoch: 12/100 	Training Loss: 0.015541 	Validation Loss: 0.115112
-Epoch: 13/100 	Training Loss: 0.005370 	Validation Loss: 0.123058
-Epoch: 14/100 	Training Loss: 0.002933 	Validation Loss: 0.135786
-Epoch: 15/100 	Training Loss: 0.002696 	Validation Loss: 0.126146
-Epoch: 16/100 	Training Loss: 0.001958 	Validation Loss: 0.131021
-Epoch: 17/100 	Training Loss: 0.001453 	Validation Loss: 0.131382
-Epoch: 18/100 	Training Loss: 0.001266 	Validation Loss: 0.123142
-Epoch: 19/100 	Training Loss: 0.001156 	Validation Loss: 0.126453
-Epoch: 20/100 	Training Loss: 0.001038 	Validation Loss: 0.132934
-Epoch: 21/100 	Training Loss: 0.000939 	Validation Loss: 0.129085
-Epoch: 22/100 	Training Loss: 0.000847 	Validation Loss: 0.132708
-Epoch: 23/100 	Training Loss: 0.000787 	Validation Loss: 0.130552
-Epoch: 24/100 	Training Loss: 0.000725 	Validation Loss: 0.134397
-Epoch: 25/100 	Training Loss: 0.000674 	Validation Loss: 0.130758
-Epoch: 26/100 	Training Loss: 0.000629 	Validation Loss: 0.135195
-Epoch: 27/100 	Training Loss: 0.000585 	Validation Loss: 0.134589
-Epoch: 28/100 	Training Loss: 0.000558 	Validation Loss: 0.134356
-Epoch: 29/100 	Training Loss: 0.000508 	Validation Loss: 0.137507
-Epoch: 30/100 	Training Loss: 0.000481 	Validation Loss: 0.133961
-Epoch: 31/100 	Training Loss: 0.000453 	Validation Loss: 0.145060
-Epoch: 32/100 	Training Loss: 0.000419 	Validation Loss: 0.145344
-Epoch: 33/100 	Training Loss: 0.000404 	Validation Loss: 0.142017
-Epoch: 34/100 	Training Loss: 0.000386 	Validation Loss: 0.145265
-Epoch: 35/100 	Training Loss: 0.000360 	Validation Loss: 0.146053
-Epoch: 36/100 	Training Loss: 0.000361 	Validation Loss: 0.144080
-Epoch: 37/100 	Training Loss: 0.000322 	Validation Loss: 0.142568
-Epoch: 38/100 	Training Loss: 0.000305 	Validation Loss: 0.143743
-Epoch: 39/100 	Training Loss: 0.000296 	Validation Loss: 0.143292
-Epoch: 40/100 	Training Loss: 0.000276 	Validation Loss: 0.142114
-Epoch: 41/100 	Training Loss: 0.000265 	Validation Loss: 0.143759
-Epoch: 42/100 	Training Loss: 0.000251 	Validation Loss: 0.148340
-Epoch: 43/100 	Training Loss: 0.000248 	Validation Loss: 0.151686
-Epoch: 44/100 	Training Loss: 0.000231 	Validation Loss: 0.147625
-Epoch: 45/100 	Training Loss: 0.000220 	Validation Loss: 0.142732
-Epoch: 46/100 	Training Loss: 0.000211 	Validation Loss: 0.146591
-Epoch: 47/100 	Training Loss: 0.000200 	Validation Loss: 0.150286
-Epoch: 48/100 	Training Loss: 0.000194 	Validation Loss: 0.151220
-Epoch: 49/100 	Training Loss: 0.000191 	Validation Loss: 0.154859
-Epoch: 50/100 	Training Loss: 0.000183 	Validation Loss: 0.147867
-Epoch: 51/100 	Training Loss: 0.000177 	Validation Loss: 0.150665
-Epoch: 52/100 	Training Loss: 0.000165 	Validation Loss: 0.156274
-Epoch: 53/100 	Training Loss: 0.000158 	Validation Loss: 0.149219
-Epoch: 54/100 	Training Loss: 0.000154 	Validation Loss: 0.153947
-Epoch: 55/100 	Training Loss: 0.000151 	Validation Loss: 0.155738
-Epoch: 56/100 	Training Loss: 0.000143 	Validation Loss: 0.158002
-Epoch: 57/100 	Training Loss: 0.000137 	Validation Loss: 0.147382
-Epoch: 58/100 	Training Loss: 0.000129 	Validation Loss: 0.156140
-Epoch: 59/100 	Training Loss: 0.000128 	Validation Loss: 0.158484
-Epoch: 60/100 	Training Loss: 0.000121 	Validation Loss: 0.155419
-Epoch: 61/100 	Training Loss: 0.000120 	Validation Loss: 0.161682
-Epoch: 62/100 	Training Loss: 0.000113 	Validation Loss: 0.157591
-Epoch: 63/100 	Training Loss: 0.000109 	Validation Loss: 0.164571
-Epoch: 64/100 	Training Loss: 0.000108 	Validation Loss: 0.157748
-Epoch: 65/100 	Training Loss: 0.000101 	Validation Loss: 0.152466
-Epoch: 66/100 	Training Loss: 0.000098 	Validation Loss: 0.163287
-Epoch: 67/100 	Training Loss: 0.000094 	Validation Loss: 0.167223
-Epoch: 68/100 	Training Loss: 0.000093 	Validation Loss: 0.160844
-Epoch: 69/100 	Training Loss: 0.000089 	Validation Loss: 0.166219
-Epoch: 70/100 	Training Loss: 0.000089 	Validation Loss: 0.156704
-Epoch: 71/100 	Training Loss: 0.000084 	Validation Loss: 0.156704
-Epoch: 72/100 	Training Loss: 0.000080 	Validation Loss: 0.163330
-Epoch: 73/100 	Training Loss: 0.000078 	Validation Loss: 0.158657
-Epoch: 74/100 	Training Loss: 0.000076 	Validation Loss: 0.160049
-Epoch: 75/100 	Training Loss: 0.000072 	Validation Loss: 0.168433
-Epoch: 76/100 	Training Loss: 0.000071 	Validation Loss: 0.160538
-Epoch: 77/100 	Training Loss: 0.000069 	Validation Loss: 0.167289
-Epoch: 78/100 	Training Loss: 0.000066 	Validation Loss: 0.170718
-Epoch: 79/100 	Training Loss: 0.000065 	Validation Loss: 0.170895
-Epoch: 80/100 	Training Loss: 0.000062 	Validation Loss: 0.167305
-Epoch: 81/100 	Training Loss: 0.000061 	Validation Loss: 0.170498
-Epoch: 82/100 	Training Loss: 0.000058 	Validation Loss: 0.168006
-Epoch: 83/100 	Training Loss: 0.000058 	Validation Loss: 0.167681
-Epoch: 84/100 	Training Loss: 0.000055 	Validation Loss: 0.165029
-Epoch: 85/100 	Training Loss: 0.000054 	Validation Loss: 0.166687
-Epoch: 86/100 	Training Loss: 0.000052 	Validation Loss: 0.168558
-Epoch: 87/100 	Training Loss: 0.000050 	Validation Loss: 0.174142
-Epoch: 88/100 	Training Loss: 0.000049 	Validation Loss: 0.168514
-Epoch: 89/100 	Training Loss: 0.000049 	Validation Loss: 0.171968
-Epoch: 90/100 	Training Loss: 0.000048 	Validation Loss: 0.170127
-Epoch: 91/100 	Training Loss: 0.000045 	Validation Loss: 0.168157
-Epoch: 92/100 	Training Loss: 0.000044 	Validation Loss: 0.175649
-Epoch: 93/100 	Training Loss: 0.000044 	Validation Loss: 0.179459
-Epoch: 94/100 	Training Loss: 0.000042 	Validation Loss: 0.173193
-Epoch: 95/100 	Training Loss: 0.000040 	Validation Loss: 0.174698
-Epoch: 96/100 	Training Loss: 0.000039 	Validation Loss: 0.175160
-Epoch: 97/100 	Training Loss: 0.000038 	Validation Loss: 0.172682
-Epoch: 98/100 	Training Loss: 0.000037 	Validation Loss: 0.179787
-Epoch: 99/100 	Training Loss: 0.000036 	Validation Loss: 0.178706
-Epoch: 100/100 	Training Loss: 0.000035 	Validation Loss: 0.179193
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 1.450326).  Saving model ...
+Epoch: 1/100 	Training Loss: 1.984350 	Validation Loss: 1.450326
+Validation loss decreased (1.450326 --&gt; 0.898917).  Saving model ...
+Epoch: 2/100 	Training Loss: 1.253709 	Validation Loss: 0.898917
+Validation loss decreased (0.898917 --&gt; 0.586386).  Saving model ...
+Epoch: 3/100 	Training Loss: 0.760255 	Validation Loss: 0.586386
+Validation loss decreased (0.586386 --&gt; 0.301999).  Saving model ...
+Epoch: 4/100 	Training Loss: 0.440664 	Validation Loss: 0.301999
+Validation loss decreased (0.301999 --&gt; 0.239972).  Saving model ...
+Epoch: 5/100 	Training Loss: 0.306546 	Validation Loss: 0.239972
+Validation loss decreased (0.239972 --&gt; 0.217352).  Saving model ...
+Epoch: 6/100 	Training Loss: 0.186200 	Validation Loss: 0.217352
+Epoch: 7/100 	Training Loss: 0.142865 	Validation Loss: 0.291342
+Validation loss decreased (0.217352 --&gt; 0.159229).  Saving model ...
+Epoch: 8/100 	Training Loss: 0.094281 	Validation Loss: 0.159229
+Epoch: 9/100 	Training Loss: 0.069433 	Validation Loss: 0.197699
+Epoch: 10/100 	Training Loss: 0.051435 	Validation Loss: 0.233007
+Epoch: 11/100 	Training Loss: 0.043313 	Validation Loss: 0.188892
+Validation loss decreased (0.159229 --&gt; 0.157666).  Saving model ...
+Epoch: 12/100 	Training Loss: 0.015784 	Validation Loss: 0.157666
+Epoch: 13/100 	Training Loss: 0.008162 	Validation Loss: 0.161323
+Validation loss decreased (0.157666 --&gt; 0.149984).  Saving model ...
+Epoch: 14/100 	Training Loss: 0.004538 	Validation Loss: 0.149984
+Epoch: 15/100 	Training Loss: 0.003205 	Validation Loss: 0.162191
+Epoch: 16/100 	Training Loss: 0.002460 	Validation Loss: 0.160052
+Epoch: 17/100 	Training Loss: 0.001868 	Validation Loss: 0.158314
+Epoch: 18/100 	Training Loss: 0.001664 	Validation Loss: 0.160575
+Epoch: 19/100 	Training Loss: 0.001486 	Validation Loss: 0.154230
+Epoch: 20/100 	Training Loss: 0.001303 	Validation Loss: 0.152342
+Epoch: 21/100 	Training Loss: 0.001157 	Validation Loss: 0.162974
+Epoch: 22/100 	Training Loss: 0.001061 	Validation Loss: 0.151396
+Validation loss decreased (0.149984 --&gt; 0.149108).  Saving model ...
+Epoch: 23/100 	Training Loss: 0.000986 	Validation Loss: 0.149108
+Epoch: 24/100 	Training Loss: 0.000895 	Validation Loss: 0.154180
+Epoch: 25/100 	Training Loss: 0.000824 	Validation Loss: 0.154057
+Epoch: 26/100 	Training Loss: 0.000766 	Validation Loss: 0.156511
+Epoch: 27/100 	Training Loss: 0.000722 	Validation Loss: 0.158346
+Epoch: 28/100 	Training Loss: 0.000663 	Validation Loss: 0.157056
+Epoch: 29/100 	Training Loss: 0.000627 	Validation Loss: 0.159830
+Epoch: 30/100 	Training Loss: 0.000587 	Validation Loss: 0.156076
+Epoch: 31/100 	Training Loss: 0.000551 	Validation Loss: 0.159517
+Epoch: 32/100 	Training Loss: 0.000514 	Validation Loss: 0.151853
+Epoch: 33/100 	Training Loss: 0.000486 	Validation Loss: 0.159285
+Epoch: 34/100 	Training Loss: 0.000462 	Validation Loss: 0.155720
+Epoch: 35/100 	Training Loss: 0.000433 	Validation Loss: 0.161826
+Epoch: 36/100 	Training Loss: 0.000416 	Validation Loss: 0.154126
+Epoch: 37/100 	Training Loss: 0.000391 	Validation Loss: 0.156776
+Epoch: 38/100 	Training Loss: 0.000374 	Validation Loss: 0.159458
+Epoch: 39/100 	Training Loss: 0.000349 	Validation Loss: 0.160409
+Epoch: 40/100 	Training Loss: 0.000327 	Validation Loss: 0.164529
+Epoch: 41/100 	Training Loss: 0.000319 	Validation Loss: 0.159482
+Epoch: 42/100 	Training Loss: 0.000306 	Validation Loss: 0.160790
+Epoch: 43/100 	Training Loss: 0.000288 	Validation Loss: 0.154870
+Epoch: 44/100 	Training Loss: 0.000272 	Validation Loss: 0.152866
+Epoch: 45/100 	Training Loss: 0.000269 	Validation Loss: 0.172931
+Epoch: 46/100 	Training Loss: 0.000251 	Validation Loss: 0.160202
+Epoch: 47/100 	Training Loss: 0.000249 	Validation Loss: 0.158421
+Epoch: 48/100 	Training Loss: 0.000230 	Validation Loss: 0.160500
+Epoch: 49/100 	Training Loss: 0.000220 	Validation Loss: 0.163276
+Epoch: 50/100 	Training Loss: 0.000218 	Validation Loss: 0.161475
+Epoch: 51/100 	Training Loss: 0.000201 	Validation Loss: 0.168624
+Epoch: 52/100 	Training Loss: 0.000201 	Validation Loss: 0.163440
+Epoch: 53/100 	Training Loss: 0.000186 	Validation Loss: 0.156617
+Epoch: 54/100 	Training Loss: 0.000181 	Validation Loss: 0.167300
+Epoch: 55/100 	Training Loss: 0.000182 	Validation Loss: 0.164460
+Epoch: 56/100 	Training Loss: 0.000169 	Validation Loss: 0.155458
+Epoch: 57/100 	Training Loss: 0.000167 	Validation Loss: 0.164681
+Epoch: 58/100 	Training Loss: 0.000155 	Validation Loss: 0.167087
+Epoch: 59/100 	Training Loss: 0.000151 	Validation Loss: 0.165610
+Epoch: 60/100 	Training Loss: 0.000145 	Validation Loss: 0.168639
+Epoch: 61/100 	Training Loss: 0.000136 	Validation Loss: 0.166208
+Epoch: 62/100 	Training Loss: 0.000135 	Validation Loss: 0.164278
+Epoch: 63/100 	Training Loss: 0.000131 	Validation Loss: 0.165872
+Epoch: 64/100 	Training Loss: 0.000124 	Validation Loss: 0.166681
+Epoch: 65/100 	Training Loss: 0.000119 	Validation Loss: 0.168546
+Epoch: 66/100 	Training Loss: 0.000119 	Validation Loss: 0.171248
+Epoch: 67/100 	Training Loss: 0.000113 	Validation Loss: 0.164111
+Epoch: 68/100 	Training Loss: 0.000108 	Validation Loss: 0.164203
+Epoch: 69/100 	Training Loss: 0.000106 	Validation Loss: 0.169878
+Epoch: 70/100 	Training Loss: 0.000102 	Validation Loss: 0.168515
+Epoch: 71/100 	Training Loss: 0.000096 	Validation Loss: 0.167141
+Epoch: 72/100 	Training Loss: 0.000093 	Validation Loss: 0.174532
+Epoch: 73/100 	Training Loss: 0.000090 	Validation Loss: 0.168373
+Epoch: 74/100 	Training Loss: 0.000087 	Validation Loss: 0.172533
+Epoch: 75/100 	Training Loss: 0.000087 	Validation Loss: 0.178315
+Epoch: 76/100 	Training Loss: 0.000082 	Validation Loss: 0.168111
+Epoch: 77/100 	Training Loss: 0.000080 	Validation Loss: 0.171647
+Epoch: 78/100 	Training Loss: 0.000077 	Validation Loss: 0.168462
+Epoch: 79/100 	Training Loss: 0.000076 	Validation Loss: 0.174674
+Epoch: 80/100 	Training Loss: 0.000073 	Validation Loss: 0.169925
+Epoch: 81/100 	Training Loss: 0.000072 	Validation Loss: 0.161096
+Epoch: 82/100 	Training Loss: 0.000068 	Validation Loss: 0.173984
+Epoch: 83/100 	Training Loss: 0.000067 	Validation Loss: 0.169284
+Epoch: 84/100 	Training Loss: 0.000067 	Validation Loss: 0.168614
+Epoch: 85/100 	Training Loss: 0.000063 	Validation Loss: 0.176574
+Epoch: 86/100 	Training Loss: 0.000061 	Validation Loss: 0.175250
+Epoch: 87/100 	Training Loss: 0.000062 	Validation Loss: 0.180993
+Epoch: 88/100 	Training Loss: 0.000059 	Validation Loss: 0.170071
+Epoch: 89/100 	Training Loss: 0.000056 	Validation Loss: 0.173844
+Epoch: 90/100 	Training Loss: 0.000055 	Validation Loss: 0.177886
+Epoch: 91/100 	Training Loss: 0.000053 	Validation Loss: 0.180745
+Epoch: 92/100 	Training Loss: 0.000051 	Validation Loss: 0.177999
+Epoch: 93/100 	Training Loss: 0.000048 	Validation Loss: 0.177515
+Epoch: 94/100 	Training Loss: 0.000051 	Validation Loss: 0.190274
+Epoch: 95/100 	Training Loss: 0.000048 	Validation Loss: 0.184641
+Epoch: 96/100 	Training Loss: 0.000047 	Validation Loss: 0.178699
+Epoch: 97/100 	Training Loss: 0.000045 	Validation Loss: 0.188961
+Epoch: 98/100 	Training Loss: 0.000043 	Validation Loss: 0.177281
+Epoch: 99/100 	Training Loss: 0.000041 	Validation Loss: 0.171321
+Epoch: 100/100 	Training Loss: 0.000041 	Validation Loss: 0.172283
 </pre></div>
 </div>
 </div>
@@ -1909,7 +1981,7 @@ Epoch: 100/100 	Training Loss: 0.000035 	Validation Loss: 0.179193
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_53_0.png" src="_images/Transformers_53_0.png" />
+<img alt="_images/Transformers_54_0.png" src="_images/Transformers_54_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1998,116 +2070,114 @@ Epoch: 100/100 	Training Loss: 0.000035 	Validation Loss: 0.179193
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 1.592206).  Saving model ...
-Epoch: 1/100 	Training Loss: 2.307288 	Validation Loss: 1.592206
-Validation loss decreased (1.592206 --&gt; 0.868274).  Saving model ...
-Epoch: 2/100 	Training Loss: 1.325434 	Validation Loss: 0.868274
-Validation loss decreased (0.868274 --&gt; 0.576358).  Saving model ...
-Epoch: 3/100 	Training Loss: 0.770029 	Validation Loss: 0.576358
-Validation loss decreased (0.576358 --&gt; 0.521580).  Saving model ...
-Epoch: 4/100 	Training Loss: 0.543526 	Validation Loss: 0.521580
-Validation loss decreased (0.521580 --&gt; 0.481349).  Saving model ...
-Epoch: 5/100 	Training Loss: 0.402830 	Validation Loss: 0.481349
-Validation loss decreased (0.481349 --&gt; 0.360461).  Saving model ...
-Epoch: 6/100 	Training Loss: 0.265076 	Validation Loss: 0.360461
-Validation loss decreased (0.360461 --&gt; 0.360049).  Saving model ...
-Epoch: 7/100 	Training Loss: 0.258451 	Validation Loss: 0.360049
-Validation loss decreased (0.360049 --&gt; 0.290673).  Saving model ...
-Epoch: 8/100 	Training Loss: 0.226243 	Validation Loss: 0.290673
-Validation loss decreased (0.290673 --&gt; 0.234300).  Saving model ...
-Epoch: 9/100 	Training Loss: 0.138823 	Validation Loss: 0.234300
-Epoch: 10/100 	Training Loss: 0.114506 	Validation Loss: 0.250198
-Validation loss decreased (0.234300 --&gt; 0.197223).  Saving model ...
-Epoch: 11/100 	Training Loss: 0.095315 	Validation Loss: 0.197223
-Epoch: 12/100 	Training Loss: 0.062785 	Validation Loss: 0.228053
-Epoch: 13/100 	Training Loss: 0.059210 	Validation Loss: 0.283630
-Epoch: 14/100 	Training Loss: 0.095309 	Validation Loss: 0.343413
-Epoch: 15/100 	Training Loss: 0.081876 	Validation Loss: 0.311255
-Epoch: 16/100 	Training Loss: 0.088381 	Validation Loss: 0.323422
-Epoch: 17/100 	Training Loss: 0.073744 	Validation Loss: 0.332966
-Epoch: 18/100 	Training Loss: 0.052868 	Validation Loss: 0.240964
-Epoch: 19/100 	Training Loss: 0.024939 	Validation Loss: 0.221593
-Epoch: 20/100 	Training Loss: 0.033075 	Validation Loss: 0.326299
-Epoch: 21/100 	Training Loss: 0.050884 	Validation Loss: 0.405387
-Epoch: 22/100 	Training Loss: 0.142760 	Validation Loss: 0.527343
-Epoch: 23/100 	Training Loss: 0.124617 	Validation Loss: 0.556928
-Epoch: 24/100 	Training Loss: 0.101762 	Validation Loss: 0.290404
-Epoch: 25/100 	Training Loss: 0.108842 	Validation Loss: 0.494764
-Epoch: 26/100 	Training Loss: 0.063953 	Validation Loss: 0.274262
-Epoch: 27/100 	Training Loss: 0.017697 	Validation Loss: 0.250192
-Epoch: 28/100 	Training Loss: 0.008075 	Validation Loss: 0.229141
-Epoch: 29/100 	Training Loss: 0.005163 	Validation Loss: 0.222041
-Epoch: 30/100 	Training Loss: 0.003694 	Validation Loss: 0.220898
-Epoch: 31/100 	Training Loss: 0.003491 	Validation Loss: 0.218672
-Epoch: 32/100 	Training Loss: 0.001902 	Validation Loss: 0.211397
-Epoch: 33/100 	Training Loss: 0.001507 	Validation Loss: 0.212560
-Epoch: 34/100 	Training Loss: 0.001501 	Validation Loss: 0.222386
-Epoch: 35/100 	Training Loss: 0.001424 	Validation Loss: 0.208552
-Epoch: 36/100 	Training Loss: 0.001139 	Validation Loss: 0.207648
-Epoch: 37/100 	Training Loss: 0.001045 	Validation Loss: 0.208375
-Epoch: 38/100 	Training Loss: 0.000986 	Validation Loss: 0.205522
-Epoch: 39/100 	Training Loss: 0.000878 	Validation Loss: 0.202709
-Epoch: 40/100 	Training Loss: 0.000861 	Validation Loss: 0.210748
-Epoch: 41/100 	Training Loss: 0.000799 	Validation Loss: 0.212847
-Epoch: 42/100 	Training Loss: 0.000751 	Validation Loss: 0.212707
-Epoch: 43/100 	Training Loss: 0.000725 	Validation Loss: 0.212258
-Epoch: 44/100 	Training Loss: 0.000662 	Validation Loss: 0.213436
-Epoch: 45/100 	Training Loss: 0.000627 	Validation Loss: 0.212955
-Epoch: 46/100 	Training Loss: 0.000601 	Validation Loss: 0.226668
-Epoch: 47/100 	Training Loss: 0.000555 	Validation Loss: 0.214676
-Epoch: 48/100 	Training Loss: 0.000546 	Validation Loss: 0.218135
-Epoch: 49/100 	Training Loss: 0.000530 	Validation Loss: 0.217790
-Epoch: 50/100 	Training Loss: 0.000498 	Validation Loss: 0.218030
-Epoch: 51/100 	Training Loss: 0.000497 	Validation Loss: 0.215336
-Epoch: 52/100 	Training Loss: 0.000453 	Validation Loss: 0.222575
-Epoch: 53/100 	Training Loss: 0.000441 	Validation Loss: 0.224782
-Epoch: 54/100 	Training Loss: 0.000406 	Validation Loss: 0.217541
-Epoch: 55/100 	Training Loss: 0.000411 	Validation Loss: 0.225065
-Epoch: 56/100 	Training Loss: 0.000384 	Validation Loss: 0.224028
-Epoch: 57/100 	Training Loss: 0.000383 	Validation Loss: 0.220449
-Epoch: 58/100 	Training Loss: 0.000362 	Validation Loss: 0.223973
-Epoch: 59/100 	Training Loss: 0.000355 	Validation Loss: 0.233872
-Epoch: 60/100 	Training Loss: 0.000354 	Validation Loss: 0.228121
-Epoch: 61/100 	Training Loss: 0.000313 	Validation Loss: 0.228122
-Epoch: 62/100 	Training Loss: 0.000310 	Validation Loss: 0.231662
-Epoch: 63/100 	Training Loss: 0.000310 	Validation Loss: 0.226894
-Epoch: 64/100 	Training Loss: 0.000292 	Validation Loss: 0.229583
-Epoch: 65/100 	Training Loss: 0.000277 	Validation Loss: 0.225841
-Epoch: 66/100 	Training Loss: 0.000271 	Validation Loss: 0.231566
-Epoch: 67/100 	Training Loss: 0.000257 	Validation Loss: 0.228376
-Epoch: 68/100 	Training Loss: 0.000252 	Validation Loss: 0.236180
-Epoch: 69/100 	Training Loss: 0.000251 	Validation Loss: 0.232228
-Epoch: 70/100 	Training Loss: 0.000239 	Validation Loss: 0.238417
-Epoch: 71/100 	Training Loss: 0.000243 	Validation Loss: 0.229703
-Epoch: 72/100 	Training Loss: 0.000222 	Validation Loss: 0.230253
-Epoch: 73/100 	Training Loss: 0.000217 	Validation Loss: 0.242098
-Epoch: 74/100 	Training Loss: 0.000205 	Validation Loss: 0.236653
-Epoch: 75/100 	Training Loss: 0.000205 	Validation Loss: 0.239742
-Epoch: 76/100 	Training Loss: 0.000197 	Validation Loss: 0.246222
-Epoch: 77/100 	Training Loss: 0.000195 	Validation Loss: 0.240131
-Epoch: 78/100 	Training Loss: 0.000185 	Validation Loss: 0.251187
-Epoch: 79/100 	Training Loss: 0.000185 	Validation Loss: 0.244625
-Epoch: 80/100 	Training Loss: 0.000176 	Validation Loss: 0.250046
-Epoch: 81/100 	Training Loss: 0.000163 	Validation Loss: 0.246081
-Epoch: 82/100 	Training Loss: 0.000167 	Validation Loss: 0.240006
-Epoch: 83/100 	Training Loss: 0.000158 	Validation Loss: 0.248981
-Epoch: 84/100 	Training Loss: 0.000164 	Validation Loss: 0.253533
-Epoch: 85/100 	Training Loss: 0.000152 	Validation Loss: 0.254697
-Epoch: 86/100 	Training Loss: 0.000152 	Validation Loss: 0.250948
-Epoch: 87/100 	Training Loss: 0.000143 	Validation Loss: 0.246610
-Epoch: 88/100 	Training Loss: 0.000137 	Validation Loss: 0.251392
-Epoch: 89/100 	Training Loss: 0.000135 	Validation Loss: 0.254816
-Epoch: 90/100 	Training Loss: 0.000135 	Validation Loss: 0.251921
-Epoch: 91/100 	Training Loss: 0.000134 	Validation Loss: 0.248000
-Epoch: 92/100 	Training Loss: 0.000120 	Validation Loss: 0.256254
-Epoch: 93/100 	Training Loss: 0.000119 	Validation Loss: 0.244750
-Epoch: 94/100 	Training Loss: 0.000116 	Validation Loss: 0.247764
-Epoch: 95/100 	Training Loss: 0.000113 	Validation Loss: 0.264508
-Epoch: 96/100 	Training Loss: 0.000118 	Validation Loss: 0.254944
-Epoch: 97/100 	Training Loss: 0.000111 	Validation Loss: 0.272507
-Epoch: 98/100 	Training Loss: 0.000111 	Validation Loss: 0.261198
-Epoch: 99/100 	Training Loss: 0.000099 	Validation Loss: 0.263758
-Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation loss decreased (inf --&gt; 1.740302).  Saving model ...
+Epoch: 1/100 	Training Loss: 2.318935 	Validation Loss: 1.740302
+Validation loss decreased (1.740302 --&gt; 0.830907).  Saving model ...
+Epoch: 2/100 	Training Loss: 1.217529 	Validation Loss: 0.830907
+Validation loss decreased (0.830907 --&gt; 0.568354).  Saving model ...
+Epoch: 3/100 	Training Loss: 0.665637 	Validation Loss: 0.568354
+Validation loss decreased (0.568354 --&gt; 0.410904).  Saving model ...
+Epoch: 4/100 	Training Loss: 0.404095 	Validation Loss: 0.410904
+Validation loss decreased (0.410904 --&gt; 0.409496).  Saving model ...
+Epoch: 5/100 	Training Loss: 0.276817 	Validation Loss: 0.409496
+Validation loss decreased (0.409496 --&gt; 0.337706).  Saving model ...
+Epoch: 6/100 	Training Loss: 0.236948 	Validation Loss: 0.337706
+Epoch: 7/100 	Training Loss: 0.197227 	Validation Loss: 0.348831
+Epoch: 8/100 	Training Loss: 0.130887 	Validation Loss: 0.504173
+Validation loss decreased (0.337706 --&gt; 0.320143).  Saving model ...
+Epoch: 9/100 	Training Loss: 0.102179 	Validation Loss: 0.320143
+Epoch: 10/100 	Training Loss: 0.094395 	Validation Loss: 0.402322
+Epoch: 11/100 	Training Loss: 0.095008 	Validation Loss: 0.377671
+Epoch: 12/100 	Training Loss: 0.079224 	Validation Loss: 0.433414
+Epoch: 13/100 	Training Loss: 0.073803 	Validation Loss: 0.440360
+Epoch: 14/100 	Training Loss: 0.070993 	Validation Loss: 0.385651
+Validation loss decreased (0.320143 --&gt; 0.307594).  Saving model ...
+Epoch: 15/100 	Training Loss: 0.042039 	Validation Loss: 0.307594
+Epoch: 16/100 	Training Loss: 0.036255 	Validation Loss: 0.442189
+Epoch: 17/100 	Training Loss: 0.032007 	Validation Loss: 0.339202
+Epoch: 18/100 	Training Loss: 0.017804 	Validation Loss: 0.324266
+Epoch: 19/100 	Training Loss: 0.009686 	Validation Loss: 0.356356
+Epoch: 20/100 	Training Loss: 0.004061 	Validation Loss: 0.362990
+Epoch: 21/100 	Training Loss: 0.002736 	Validation Loss: 0.374585
+Epoch: 22/100 	Training Loss: 0.002383 	Validation Loss: 0.358134
+Epoch: 23/100 	Training Loss: 0.001987 	Validation Loss: 0.375833
+Epoch: 24/100 	Training Loss: 0.001835 	Validation Loss: 0.369629
+Epoch: 25/100 	Training Loss: 0.001626 	Validation Loss: 0.371187
+Epoch: 26/100 	Training Loss: 0.001525 	Validation Loss: 0.372334
+Epoch: 27/100 	Training Loss: 0.001395 	Validation Loss: 0.371207
+Epoch: 28/100 	Training Loss: 0.001272 	Validation Loss: 0.374475
+Epoch: 29/100 	Training Loss: 0.001197 	Validation Loss: 0.367340
+Epoch: 30/100 	Training Loss: 0.001098 	Validation Loss: 0.390183
+Epoch: 31/100 	Training Loss: 0.001031 	Validation Loss: 0.374331
+Epoch: 32/100 	Training Loss: 0.000987 	Validation Loss: 0.379210
+Epoch: 33/100 	Training Loss: 0.000907 	Validation Loss: 0.383391
+Epoch: 34/100 	Training Loss: 0.000872 	Validation Loss: 0.391135
+Epoch: 35/100 	Training Loss: 0.000807 	Validation Loss: 0.396079
+Epoch: 36/100 	Training Loss: 0.000761 	Validation Loss: 0.386597
+Epoch: 37/100 	Training Loss: 0.000721 	Validation Loss: 0.379349
+Epoch: 38/100 	Training Loss: 0.000694 	Validation Loss: 0.372599
+Epoch: 39/100 	Training Loss: 0.000669 	Validation Loss: 0.384568
+Epoch: 40/100 	Training Loss: 0.000629 	Validation Loss: 0.382811
+Epoch: 41/100 	Training Loss: 0.000593 	Validation Loss: 0.389115
+Epoch: 42/100 	Training Loss: 0.000555 	Validation Loss: 0.402421
+Epoch: 43/100 	Training Loss: 0.000544 	Validation Loss: 0.390759
+Epoch: 44/100 	Training Loss: 0.000526 	Validation Loss: 0.399612
+Epoch: 45/100 	Training Loss: 0.000488 	Validation Loss: 0.402742
+Epoch: 46/100 	Training Loss: 0.000461 	Validation Loss: 0.393877
+Epoch: 47/100 	Training Loss: 0.000454 	Validation Loss: 0.394791
+Epoch: 48/100 	Training Loss: 0.000429 	Validation Loss: 0.391599
+Epoch: 49/100 	Training Loss: 0.000422 	Validation Loss: 0.411608
+Epoch: 50/100 	Training Loss: 0.000391 	Validation Loss: 0.404315
+Epoch: 51/100 	Training Loss: 0.000376 	Validation Loss: 0.406221
+Epoch: 52/100 	Training Loss: 0.000367 	Validation Loss: 0.405292
+Epoch: 53/100 	Training Loss: 0.000355 	Validation Loss: 0.399701
+Epoch: 54/100 	Training Loss: 0.000335 	Validation Loss: 0.412485
+Epoch: 55/100 	Training Loss: 0.000322 	Validation Loss: 0.406811
+Epoch: 56/100 	Training Loss: 0.000308 	Validation Loss: 0.400406
+Epoch: 57/100 	Training Loss: 0.000304 	Validation Loss: 0.411493
+Epoch: 58/100 	Training Loss: 0.000294 	Validation Loss: 0.409873
+Epoch: 59/100 	Training Loss: 0.000273 	Validation Loss: 0.399864
+Epoch: 60/100 	Training Loss: 0.000268 	Validation Loss: 0.400334
+Epoch: 61/100 	Training Loss: 0.000264 	Validation Loss: 0.401393
+Epoch: 62/100 	Training Loss: 0.000257 	Validation Loss: 0.407368
+Epoch: 63/100 	Training Loss: 0.000247 	Validation Loss: 0.406506
+Epoch: 64/100 	Training Loss: 0.000232 	Validation Loss: 0.408935
+Epoch: 65/100 	Training Loss: 0.000224 	Validation Loss: 0.412725
+Epoch: 66/100 	Training Loss: 0.000213 	Validation Loss: 0.415653
+Epoch: 67/100 	Training Loss: 0.000211 	Validation Loss: 0.410166
+Epoch: 68/100 	Training Loss: 0.000202 	Validation Loss: 0.411092
+Epoch: 69/100 	Training Loss: 0.000193 	Validation Loss: 0.405694
+Epoch: 70/100 	Training Loss: 0.000188 	Validation Loss: 0.414806
+Epoch: 71/100 	Training Loss: 0.000178 	Validation Loss: 0.410770
+Epoch: 72/100 	Training Loss: 0.000178 	Validation Loss: 0.419237
+Epoch: 73/100 	Training Loss: 0.000172 	Validation Loss: 0.408095
+Epoch: 74/100 	Training Loss: 0.000167 	Validation Loss: 0.419047
+Epoch: 75/100 	Training Loss: 0.000159 	Validation Loss: 0.419501
+Epoch: 76/100 	Training Loss: 0.000152 	Validation Loss: 0.423590
+Epoch: 77/100 	Training Loss: 0.000152 	Validation Loss: 0.412641
+Epoch: 78/100 	Training Loss: 0.000142 	Validation Loss: 0.421532
+Epoch: 79/100 	Training Loss: 0.000148 	Validation Loss: 0.418992
+Epoch: 80/100 	Training Loss: 0.000136 	Validation Loss: 0.416768
+Epoch: 81/100 	Training Loss: 0.000133 	Validation Loss: 0.430505
+Epoch: 82/100 	Training Loss: 0.000130 	Validation Loss: 0.432306
+Epoch: 83/100 	Training Loss: 0.000125 	Validation Loss: 0.424790
+Epoch: 84/100 	Training Loss: 0.000123 	Validation Loss: 0.438638
+Epoch: 85/100 	Training Loss: 0.000117 	Validation Loss: 0.427997
+Epoch: 86/100 	Training Loss: 0.000113 	Validation Loss: 0.429279
+Epoch: 87/100 	Training Loss: 0.000109 	Validation Loss: 0.427529
+Epoch: 88/100 	Training Loss: 0.000113 	Validation Loss: 0.436179
+Epoch: 89/100 	Training Loss: 0.000112 	Validation Loss: 0.423940
+Epoch: 90/100 	Training Loss: 0.000105 	Validation Loss: 0.433947
+Epoch: 91/100 	Training Loss: 0.000097 	Validation Loss: 0.434089
+Epoch: 92/100 	Training Loss: 0.000095 	Validation Loss: 0.418996
+Epoch: 93/100 	Training Loss: 0.000092 	Validation Loss: 0.424871
+Epoch: 94/100 	Training Loss: 0.000092 	Validation Loss: 0.435232
+Epoch: 95/100 	Training Loss: 0.000087 	Validation Loss: 0.441039
+Epoch: 96/100 	Training Loss: 0.000085 	Validation Loss: 0.443360
+Epoch: 97/100 	Training Loss: 0.000085 	Validation Loss: 0.443358
+Epoch: 98/100 	Training Loss: 0.000079 	Validation Loss: 0.434534
+Epoch: 99/100 	Training Loss: 0.000080 	Validation Loss: 0.447208
+Epoch: 100/100 	Training Loss: 0.000076 	Validation Loss: 0.448461
 </pre></div>
 </div>
 </div>
@@ -2134,7 +2204,7 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_60_0.png" src="_images/Transformers_60_0.png" />
+<img alt="_images/Transformers_61_0.png" src="_images/Transformers_61_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2170,7 +2240,7 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 <span class="n">f</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc2</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
@@ -2181,7 +2251,7 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_65_0.png" src="_images/Transformers_65_0.png" />
+<img alt="_images/Transformers_66_0.png" src="_images/Transformers_66_0.png" />
 </div>
 </div>
 </section>
@@ -2193,7 +2263,7 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 <span class="n">f</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
@@ -2204,13 +2274,15 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_67_0.png" src="_images/Transformers_67_0.png" />
+<img alt="_images/Transformers_68_0.png" src="_images/Transformers_68_0.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="comparison">
 <h2>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">#</a></h2>
+<section id="transformer-models">
+<h3>Transformer Models<a class="headerlink" href="#transformer-models" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -2220,7 +2292,7 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc2</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc3</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
@@ -2232,9 +2304,43 @@ Epoch: 100/100 	Training Loss: 0.000096 	Validation Loss: 0.260173
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Transformers_69_0.png" src="_images/Transformers_69_0.png" />
+<img alt="_images/Transformers_71_0.png" src="_images/Transformers_71_0.png" />
 </div>
 </div>
+</section>
+<section id="all-models">
+<h3>All Models<a class="headerlink" href="#all-models" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;acc.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">gru</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">time_point_acc3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">att</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">gru</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_changes</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mf">0.85</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Multi-Head&quot;</span><span class="p">,</span><span class="s2">&quot;Multi-Head PoE&quot;</span><span class="p">,</span><span class="s2">&quot;Single-Head&quot;</span><span class="p">,</span><span class="s2">&quot;Single-Head PoE&quot;</span><span class="p">,</span><span class="s2">&quot;Attention&quot;</span><span class="p">,</span><span class="s2">&quot;GRU&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time Points&quot;</span><span class="p">,</span><span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;15&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span><span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;15&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;All Comparison&quot;</span><span class="p">,</span><span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;15&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Transformers_73_0.png" src="_images/Transformers_73_0.png" />
+</div>
+</div>
+</section>
 </section>
 </section>
 
