@@ -51,7 +51,7 @@ time_changes = np.array(time_changes)
 time = [i for i in range(1,seq_length+1)]
 
 
-# In[ ]:
+# In[4]:
 
 
 train_feature = []
@@ -446,7 +446,7 @@ class Transformer_Model_PoE(nn.Module):
         return x
 
 
-# ## Training (No PoE)
+# ## Train & Test Functions
 
 # In[15]:
 
@@ -531,6 +531,8 @@ def test(test_loader,net):
 
     return T_pred,T_lab
 
+
+# ## Training(No PoE)
 
 # In[17]:
 
@@ -674,7 +676,7 @@ f, ax = plt.subplots(1,1)
 f.set_figwidth(19)
 f.set_figheight(5)
 ax.plot(time,time_point_acc)
-ax.set_xticks(time_changes-1, minor=True)
+ax.set_xticks(time_changes, minor=True)
 ax.set_yticks([0.85], minor=True)
 ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
 ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
@@ -693,7 +695,7 @@ f, ax = plt.subplots(1,1)
 f.set_figwidth(19)
 f.set_figheight(5)
 ax.plot(time,time_point_acc1)
-ax.set_xticks(time_changes-1, minor=True)
+ax.set_xticks(time_changes, minor=True)
 ax.set_yticks([0.85], minor=True)
 ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
 ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
@@ -845,7 +847,7 @@ f, ax = plt.subplots(1,1)
 f.set_figwidth(19)
 f.set_figheight(5)
 ax.plot(time,time_point_acc2)
-ax.set_xticks(time_changes-1, minor=True)
+ax.set_xticks(time_changes, minor=True)
 ax.set_yticks([0.85], minor=True)
 ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
 ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
@@ -863,7 +865,7 @@ f, ax = plt.subplots(1,1)
 f.set_figwidth(19)
 f.set_figheight(5)
 ax.plot(time,time_point_acc3)
-ax.set_xticks(time_changes-1, minor=True)
+ax.set_xticks(time_changes, minor=True)
 ax.set_yticks([0.85], minor=True)
 ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
 ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
@@ -873,6 +875,8 @@ ax.set_title("Accuracies (Single-Head | with PoE)",fontweight='bold',color = 'Bl
 
 
 # ## Comparison
+
+# ### Transformer Models
 
 # In[45]:
 
@@ -884,7 +888,7 @@ ax.plot(time,time_point_acc)
 ax.plot(time,time_point_acc2)
 ax.plot(time,time_point_acc1)
 ax.plot(time,time_point_acc3)
-ax.set_xticks(time_changes-1, minor=True)
+ax.set_xticks(time_changes, minor=True)
 ax.set_yticks([0.85], minor=True)
 ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
 ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
@@ -892,4 +896,32 @@ ax.legend(["Multi-Head","Multi-Head PoE","Single-Head","Single-Head PoE"])
 ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
 ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
 ax.set_title("Comparison",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
+
+
+# ### All Models
+
+# In[51]:
+
+
+with open('acc.npy', 'rb') as f:
+    att = np.load(f)
+    gru = np.load(f)
+
+f, ax = plt.subplots(1,1)
+f.set_figwidth(20)
+f.set_figheight(10)
+ax.plot(time,time_point_acc)
+ax.plot(time,time_point_acc2)
+ax.plot(time,time_point_acc1)
+ax.plot(time,time_point_acc3)
+ax.plot(time,att)
+ax.plot(time,gru)
+ax.set_xticks(time_changes, minor=True)
+ax.set_yticks([0.85], minor=True)
+ax.yaxis.grid(True,linestyle='-.', linewidth=0.5, which='both')
+ax.xaxis.grid(True,linestyle='-', linewidth=0.5, which='minor')
+ax.legend(["Multi-Head","Multi-Head PoE","Single-Head","Single-Head PoE","Attention","GRU"])
+ax.set_xlabel("Time Points",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_ylabel("Accuracy",fontweight="bold",color = 'Black', fontsize='15', horizontalalignment='center')
+ax.set_title("All Comparison",fontweight='bold',color = 'Black', fontsize='15', horizontalalignment='center');
 
